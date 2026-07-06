@@ -1,0 +1,2 @@
+from garutvon import app
+

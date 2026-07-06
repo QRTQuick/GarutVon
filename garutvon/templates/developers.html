@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head"><h1>Developer Platform</h1><p>Create developer accounts, manage API keys, review usage, inspect logs, understand rate limits and test endpoints in the playground.</p><a class="button secondary" href="/register"><i class="fa-solid fa-key"></i> Create API Key</a></section>
+<section class="grid three">{% for lang in ["Python","JavaScript","PHP","Go","Java","C#"] %}<article class="card"><h2>{{ lang }} SDK</h2><pre><code>POST /api/summarize
+Authorization: Bearer YOUR_KEY</code></pre></article>{% endfor %}</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GarutVON is a universal file productivity platform for conversion, automation, AI analysis and developer APIs.">
+  <title>{{ title }} | GarutVON</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><i class="fa-solid fa-file-shield"></i> GarutVON</a>
+    <button class="nav-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <nav class="nav">
+      <a href="/about">About</a><a href="/features">Features</a><a href="/download">Download</a><a href="/pricing">Pricing</a><a href="/api-page">API</a><a href="/developers">Developers</a><a href="/documentation">Docs</a>
+      {% if current_user.is_authenticated %}<a href="/dashboard">Dashboard</a>{% else %}<a href="/login">Login</a>{% endif %}
+      <a class="support-link" href="{{ donation_url }}" target="_blank" rel="noopener">Support GarutVON</a>
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}<section class="flash-wrap">{% for category, message in messages %}<p class="flash {{ category }}">{{ message }}</p>{% endfor %}</section>{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <div>
+      <strong>GarutVON</strong>
+      <p>Universal File Productivity Platform Built by Quick Red Tech</p>
+    </div>
+    <a class="button ghost" href="{{ donation_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Support GarutVON</a>
+  </footer>
+</body>
+</html>

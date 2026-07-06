@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head"><h1>Create Account</h1><p>Start with a dashboard, API key and developer usage tracking.</p></section>
+<form class="form glass" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Name<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Password<input name="password" type="password" minlength="8" required></label><button class="button" type="submit"><i class="fa-solid fa-user-plus"></i> Register</button></form>
+{% endblock %}

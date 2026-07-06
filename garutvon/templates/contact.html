@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head"><h1>Contact</h1><p>Send product, support or developer platform questions to the GarutVON team.</p></section>
+<form class="form glass" method="post" action="/support"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Email<input name="email" type="email" required></label><label>Subject<input name="subject" required></label><label>Message<textarea name="message" rows="6" required></textarea></label><button class="button" type="submit"><i class="fa-solid fa-paper-plane"></i> Send</button></form>
+{% endblock %}

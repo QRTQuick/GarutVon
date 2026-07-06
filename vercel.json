@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "garutvon/wsgi.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "garutvon/wsgi.py" }
+  ]
+}
