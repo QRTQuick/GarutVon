@@ -1,5 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="page-head"><h1>Download GarutVON Free</h1><p>No payment is required before download. The desktop app checks <code>GET /api/version</code> for the latest version, download URL, release notes and checksum.</p><div class="actions"><a class="button" href="/download/track"><i class="fa-solid fa-download"></i> Download Free</a><a class="button ghost" href="{{ donation_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Support GarutVON</a></div></section>
-<section class="grid three"><article class="card"><h2>Latest Version</h2><p>{{ latest_version }}</p></article><article class="card"><h2>Automatic Updates</h2><p>Version metadata is exposed through the FastAPI update endpoint.</p></article><article class="card"><h2>Checksum</h2><p>Release integrity metadata is included for desktop clients.</p></article></section>
+<section class="page-head">
+    <h1>Download GarutVON Free</h1>
+    <p>No payment is required before download. The desktop app checks <code>GET /api/version</code> for the latest
+        version, download URL, release notes and checksum.</p>
+    <div class="actions"><a class="button" href="/download/track"><i class="fa-solid fa-download"></i> Download Windows
+            64-bit</a><a class="button ghost" href="{{ donation_url }}" target="_blank" rel="noopener"><i
+                class="fa-solid fa-heart"></i> Support GarutVON</a></div>
+</section>
+<section class="grid three">
+    <article class="card">
+        <h2>Windows 64-bit</h2>
+        <p>Available now for desktop users. Click the download button above to get the latest Windows installer.</p>
+    </article>
+    <article class="card">
+        <h2>macOS</h2>
+        <p>Not yet available. macOS support is coming soon as we expand GarutVON Desktop compatibility.</p>
+    </article>
+    <article class="card">
+        <h2>Linux</h2>
+        <p>Not yet available. Linux builds will be released after the first stable Windows version.</p>
+    </article>
+</section>
+<section class="grid three">
+    <article class="card">
+        <h2>Latest Version</h2>
+        <p>{{ latest_version }}</p>
+    </article>
+    <article class="card">
+        <h2>Automatic Updates</h2>
+        <p>Version metadata is exposed through the FastAPI update endpoint.</p>
+    </article>
+    <article class="card">
+        <h2>Checksum</h2>
+        <p>Release integrity metadata is included for desktop clients.</p>
+    </article>
+</section>
 {% endblock %}

@@ -1,23 +1,29 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% block meta_description %}GarutVON is a universal file productivity platform for conversion, automation, AI analysis, desktop updates and developer APIs.{% endblock %}">
-  <meta name="keywords" content="GarutVON, file converter, PDF tools, OCR, document conversion, image conversion, developer API, desktop app, Quick Red Tech">
+  <meta name="description"
+    content="{% block meta_description %}GarutVON is a universal file productivity platform for conversion, automation, AI analysis, desktop updates and developer APIs. Download free desktop tools, access REST APIs, and build document automation with GarutVON.{% endblock %}">
+  <meta name="keywords"
+    content="GarutVON, Garut Von, GarutVON Software, GarutVON Platform, GarutVON API, GarutVON Desktop, GarutVON Converter, GarutVON OCR, GarutVON PDF, GarutVON AI, MyHappr, MyHapper, Quick Red Tech, QuickRedTech, quick red tech, quickredtech, Quick Red Technologies, Software Development Studio, Software Company, AI Software, Developer Tools, Universal File Converter, File Converter, Online File Converter, Desktop File Converter, File Productivity Platform, Document Converter, Image Converter, PDF Converter, DOCX Converter, Word to PDF, PDF to Word, PDF to DOCX, PDF to HTML, HTML to PDF, Excel Converter, CSV Converter, PowerPoint Converter, Markdown Converter, JSON Converter, XML Converter, YAML Converter, Image Compression, PDF Compression, File Compression, Batch File Conversion, OCR Software, OCR API, Image OCR, Receipt OCR, Invoice OCR, ID OCR, Handwriting OCR, Text Extraction, AI OCR, AI Document Reader, AI PDF Reader, PDF AI, PDF Summarizer, Document Summarizer, AI Summarization, AI Translation, Document Translation, Grammar Checker, Grammar API, Resume Checker, Resume Analyzer, ATS Resume Checker, CV Analyzer, Resume Optimizer, Cover Letter Generator, Email Generator, AI Email Writer, AI Writing Assistant, PDF Toolkit, PDF Editor, Merge PDF, Split PDF, Rotate PDF, Extract PDF Images, Extract PDF Text, Background Remover, AI Background Removal, Image Background Remover, Remove Background API, Screenshot API, Website Screenshot API, Metadata Extractor, EXIF Viewer, Image Metadata, Document Metadata, Universal API, REST API, FastAPI, Flask, Python API, SQLAlchemy, PostgreSQL, Neon Database, Developer API, API Platform, API Marketplace, API Documentation, API Playground, API Key Management, SDK, Python SDK, JavaScript SDK, PHP SDK, Go SDK, Java SDK, C# SDK, Cloud API, Desktop Software, Windows Software, Linux Software, macOS Software, Cross Platform Software, Productivity Software, Business Productivity, Office Productivity, Document Automation, File Automation, Digital Documents, AI Productivity, Automation Platform, Software Downloads, Developer Platform, API Service, SaaS Platform, Open Source Tools, Free Software, Free File Converter, File Conversion API, Document Processing API, Image Processing API, PDF API, OCR Platform, AI Platform, Developer Resources, Programming Tools, Code Examples, Documentation Portal, Software Updates, Auto Update Service, Version Checker, Changelog, Release Notes, File Utilities, Document Utilities, Universal Toolkit, Productivity Tools, Small Business Software, Enterprise Software, Business Automation, AI Services, Cloud Services, Developer Community, Build in Public, Python Developers, Flask Developers, FastAPI Developers, Open Source Software, File Management, Document Intelligence, Intelligent Documents, Digital Workflow, Smart Documents, OCR Engine, AI APIs, PDF Intelligence, AI Document Analysis, Convert Files Online, Convert Files Offline, Universal Document Tools, PDF Utilities, Image Utilities, Office Tools, Student Productivity, Research Tools, Business Documents, Developer Productivity, API Integration, Modern Software, Secure File Processing, High Performance API, Cross Platform Utility, Universal Productivity Platform">
   <meta name="author" content="Quick Red Tech">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="{{ public_base_url }}{{ request.path }}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GarutVON">
   <meta property="og:title" content="{{ title }} | GarutVON">
-  <meta property="og:description" content="One platform for file conversion, optimization, AI analysis, automation and developer APIs.">
+  <meta property="og:description"
+    content="One platform for file conversion, optimization, AI analysis, automation and developer APIs.">
   <meta property="og:url" content="{{ public_base_url }}{{ request.path }}">
   <meta property="og:image" content="{{ public_base_url }}{{ url_for('static', filename='icons/favicon.svg') }}">
+  <meta name="google-site-verification" content="_SVmCckopg1tZ_gaOmiT5rtxZfR6VPZTdTDldsrNK_Q" />
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@GarutVon">
   <meta name="twitter:title" content="{{ title }} | GarutVON">
-  <meta name="twitter:description" content="GarutVON is a universal file productivity platform built by Quick Red Tech.">
+  <meta name="twitter:description"
+    content="GarutVON is a universal file productivity platform built by Quick Red Tech.">
   <title>{{ title }} | GarutVON</title>
   <link rel="icon" href="{{ url_for('static', filename='icons/favicon.svg') }}" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.svg') }}">
@@ -26,20 +32,29 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
   <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+  <script defer src="{{ url_for('static', filename='js/logo-3d.js') }}"></script>
 </head>
+
 <body>
+  <div id="logo-3d-container" class="logo-3d-container" aria-hidden="true"></div>
   <header class="topbar">
     <a class="brand" href="/"><i class="fa-solid fa-file-shield"></i> GarutVON</a>
+    <span class="brand-sub">This is the logo of the IST</span>
     <button class="nav-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
     <nav class="nav">
-      <a href="/about">About</a><a href="/features">Features</a><a href="/download">Download</a><a href="/pricing">Pricing</a><a href="/api-page">API</a><a href="/developers">Developers</a><a href="/documentation">Docs</a>
-      {% if current_user.is_authenticated %}<a href="/dashboard">Dashboard</a>{% else %}<a href="/login">Login</a>{% endif %}
+      <a href="/about">About</a><a href="/features">Features</a><a href="/download">Download</a><a
+        href="/pricing">Pricing</a><a href="/api-page">API</a><a href="/developers">Developers</a><a
+        href="/documentation">Docs</a>
+      {% if current_user.is_authenticated %}<a href="/dashboard">Dashboard</a>{% else %}<a href="/login">Login</a>{%
+      endif %}
       <a class="support-link" href="/support-garutvon">Support GarutVON</a>
     </nav>
   </header>
   <main>
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}<section class="flash-wrap">{% for category, message in messages %}<p class="flash {{ category }}">{{ message }}</p>{% endfor %}</section>{% endif %}
+    {% if messages %}<section class="flash-wrap">{% for category, message in messages %}<p class="flash {{ category }}">
+        {{ message }}</p>{% endfor %}</section>{% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
   </main>
@@ -47,9 +62,11 @@
     <div>
       <strong>GarutVON</strong>
       <p>Universal File Productivity Platform Built by Quick Red Tech</p>
-      <p><a href="mailto:{{ support_email }}">{{ support_email }}</a> · <a href="{{ x_url }}" target="_blank" rel="noopener">X</a> · <a href="/sitemap.xml">Sitemap</a></p>
+      <p><a href="mailto:{{ support_email }}">{{ support_email }}</a> · <a href="{{ x_url }}" target="_blank"
+          rel="noopener">X</a></p>
     </div>
     <a class="button ghost" href="/support-garutvon"><i class="fa-solid fa-heart"></i> Support GarutVON</a>
   </footer>
 </body>
+
 </html>
