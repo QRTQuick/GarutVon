@@ -13,11 +13,17 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Email<input name="email" type="email" autocomplete="email" required></label>
     <label>Password
-      <span class="password-row"><input name="password" type="password" autocomplete="current-password" required><button class="icon-button" type="button" data-toggle-password aria-label="Show password"><i class="fa-solid fa-eye"></i></button></span>
+      <span class="password-row"><input name="password" type="password" autocomplete="current-password" required><button
+          class="icon-button" type="button" data-toggle-password aria-label="Show password"><i
+            class="fa-solid fa-eye"></i></button></span>
     </label>
-    <p class="auth-note"><i class="fa-solid fa-shield-halved"></i> Use the email and password you created for GarutVON.</p>
+    <p class="auth-note"><i class="fa-solid fa-shield-halved"></i> Use the email and password you created for GarutVON.
+    </p>
     <button class="button" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-    <a href="/register">Create an account</a>
+    <div class="auth-actions">
+      <a href="/forgot-password">Forgot password?</a>
+      <a href="/register">Create an account</a>
+    </div>
   </form>
 </section>
 {% endblock %}

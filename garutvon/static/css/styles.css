@@ -56,6 +56,18 @@ a {
     background: rgba(255, 255, 255, .08)
 }
 
+.brand-emoji {
+    font-size: 1.2rem;
+}
+
+.brand-image {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .1);
+}
+
 .brand i {
     color: #9feeff
 }
@@ -541,6 +553,25 @@ textarea {
     margin: 0
 }
 
+.auth-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.auth-actions a {
+    color: var(--white);
+    opacity: .9;
+    text-decoration: none;
+    font-size: .95rem;
+}
+
+.auth-actions a:hover {
+    opacity: 1;
+}
+
 .auth-note.ok {
     color: var(--ok)
 }
@@ -572,6 +603,25 @@ textarea {
     padding: 2rem clamp(1rem, 4vw, 4rem);
     border-top: 1px solid var(--line);
     color: var(--muted)
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--white);
 }
 
 .support-hero {

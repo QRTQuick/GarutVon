@@ -1,7 +1,16 @@
 from functools import wraps
 import re
 
-from flask import Blueprint, Response, current_app, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    Response,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
@@ -80,12 +89,37 @@ def globals_for_templates():
 
 
 for route, page in PAGES.items():
-    site.add_url_rule(route, page[0], lambda template=page[1], title=page[2]: render_template(template, title=title))
+    site.add_url_rule(
+        route,
+        page[0],
+        lambda template=page[1], title=page[2]: render_template(template, title=title),
+    )
 
 
 @site.get("/login")
 def login():
     return render_template("login.html", title="Login")
+
+
+@site.get("/forgot-password")
+def forgot_password():
+    return render_template("forgot-password.html", title="Forgot Password")
+
+
+@site.post("/forgot-password")
+def forgot_password_post():
+    email = request.form.get("email", "").strip().lower()
+    if not email or "@" not in email:
+        flash("Please enter a valid email address.", "error")
+        return redirect(url_for("site.forgot_password"))
+    user = db_session.query(User).filter_by(email=email).first()
+    if user:
+        current_app.logger.info("Password reset requested for %s", email)
+    flash(
+        "If that email is registered, password reset instructions have been sent.",
+        "success",
+    )
+    return redirect(url_for("site.login"))
 
 
 @site.post("/login")
@@ -131,7 +165,9 @@ def register_post():
         if db_session.query(User).filter_by(email=email).first():
             flash("That email is already registered. Please log in instead.", "error")
             return redirect(url_for("site.login"))
-        user = User(name=name, email=email, is_admin=db_session.query(User).count() == 0)
+        user = User(
+            name=name, email=email, is_admin=db_session.query(User).count() == 0
+        )
         user.set_password(password)
         db_session.add(user)
         db_session.flush()
@@ -146,7 +182,10 @@ def register_post():
     except SQLAlchemyError:
         db_session.rollback()
         current_app.logger.exception("Registration database error")
-        flash("Account creation is temporarily unavailable. Please try again in a moment.", "error")
+        flash(
+            "Account creation is temporarily unavailable. Please try again in a moment.",
+            "error",
+        )
         return redirect(url_for("site.register"))
     except Exception:
         db_session.rollback()
@@ -166,8 +205,15 @@ def logout():
 @login_required
 def dashboard():
     keys = db_session.query(ApiKey).filter_by(user_id=current_user.id).all()
-    tickets = db_session.query(SupportTicket).filter_by(user_email=current_user.email).order_by(SupportTicket.created_at.desc()).all()
-    return render_template("dashboard.html", title="Dashboard", keys=keys, tickets=tickets)
+    tickets = (
+        db_session.query(SupportTicket)
+        .filter_by(user_email=current_user.email)
+        .order_by(SupportTicket.created_at.desc())
+        .all()
+    )
+    return render_template(
+        "dashboard.html", title="Dashboard", keys=keys, tickets=tickets
+    )
 
 
 @site.post("/dashboard/api-keys")
@@ -183,7 +229,9 @@ def create_api_key():
 @site.post("/support")
 def support():
     ticket = SupportTicket(
-        user_email=request.form.get("email", getattr(current_user, "email", "")).strip().lower(),
+        user_email=request.form.get("email", getattr(current_user, "email", ""))
+        .strip()
+        .lower(),
         subject=request.form.get("subject", "GarutVON support").strip()[:180],
         message=request.form.get("message", "").strip(),
     )
@@ -203,22 +251,13 @@ def contact():
 
 @site.get("/robots.txt")
 def robots_txt():
-    base_url = current_app.config["PUBLIC_BASE_URL"]
-    body = f"""User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /dashboard
-Disallow: /login
-Disallow: /register
-
-Sitemap: {base_url}/sitemap.xml
-"""
-    return Response(body, mimetype="text/plain")
+    return Response(
+        render_template("robots.txt", title="Robots"), mimetype="text/plain"
+    )
 
 
 @site.get("/sitemap.xml")
 def sitemap_xml():
-    base_url = current_app.config["PUBLIC_BASE_URL"]
     urls = [
         ("/", "1.0", "daily"),
         ("/about", "0.8", "weekly"),
@@ -231,19 +270,27 @@ def sitemap_xml():
         ("/contact", "0.6", "monthly"),
         ("/support-garutvon", "0.7", "weekly"),
     ]
-    items = "\n".join(
-        f"  <url><loc>{base_url}{path}</loc><changefreq>{freq}</changefreq><priority>{priority}</priority></url>"
-        for path, priority, freq in urls
+    return Response(
+        render_template("sitemap.xml", title="Sitemap", urls=urls),
+        mimetype="application/xml",
     )
-    body = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>\n'
-    return Response(body, mimetype="application/xml")
 
 
 @site.get("/download/track")
 def track_download():
-    db_session.add(Download(platform=request.args.get("platform", "windows"), ip_address=request.remote_addr or ""))
+    platform = request.args.get("platform", "windows").lower()
+    if platform in ("mac", "macos"):
+        download_url = current_app.config["DOWNLOAD_URL_MAC"]
+        platform = "macos"
+    elif platform == "linux":
+        download_url = current_app.config["DOWNLOAD_URL_LINUX"]
+    else:
+        download_url = current_app.config["DOWNLOAD_URL_WINDOWS"]
+        platform = "windows"
+
+    db_session.add(Download(platform=platform, ip_address=request.remote_addr or ""))
     db_session.commit()
-    return redirect(current_app.config["DOWNLOAD_URL"])
+    return redirect(download_url)
 
 
 @site.get("/admin")
@@ -258,5 +305,12 @@ def admin():
         "latest_version": current_app.config["LATEST_VERSION"],
     }
     logs = db_session.query(ApiLog).order_by(ApiLog.created_at.desc()).limit(20).all()
-    tickets = db_session.query(SupportTicket).order_by(SupportTicket.created_at.desc()).limit(20).all()
-    return render_template("admin.html", title="Admin", stats=stats, logs=logs, tickets=tickets)
+    tickets = (
+        db_session.query(SupportTicket)
+        .order_by(SupportTicket.created_at.desc())
+        .limit(20)
+        .all()
+    )
+    return render_template(
+        "admin.html", title="Admin", stats=stats, logs=logs, tickets=tickets
+    )

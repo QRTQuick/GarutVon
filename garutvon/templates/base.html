@@ -39,8 +39,12 @@
 <body>
   <div id="logo-3d-container" class="logo-3d-container" aria-hidden="true"></div>
   <header class="topbar">
-    <a class="brand" href="/"><i class="fa-solid fa-file-shield"></i> GarutVON</a>
-    <span class="brand-sub">This is the logo of the IST</span>
+    <a class="brand" href="/">
+      <span class="brand-emoji">🌀</span>
+      GarutVON
+      <img class="brand-image" src="{{ url_for('static', filename='images/ist-logo.svg') }}" alt="GarutVON logo"
+        loading="lazy" onerror="this.style.display='none'">
+    </a>
     <button class="nav-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
     <nav class="nav">
       <a href="/about">About</a><a href="/features">Features</a><a href="/download">Download</a><a
@@ -48,7 +52,6 @@
         href="/documentation">Docs</a>
       {% if current_user.is_authenticated %}<a href="/dashboard">Dashboard</a>{% else %}<a href="/login">Login</a>{%
       endif %}
-      <a class="support-link" href="/support-garutvon">Support GarutVON</a>
     </nav>
   </header>
   <main>
@@ -59,11 +62,13 @@
     {% block content %}{% endblock %}
   </main>
   <footer class="footer">
-    <div>
+    <div class="footer-copy">
       <strong>GarutVON</strong>
       <p>Universal File Productivity Platform Built by Quick Red Tech</p>
-      <p><a href="mailto:{{ support_email }}">{{ support_email }}</a> · <a href="{{ x_url }}" target="_blank"
-          rel="noopener">X</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:{{ support_email }}"><i class="fa-solid fa-envelope"></i> {{ support_email }}</a>
+      <a href="{{ x_url }}" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i> X</a>
     </div>
     <a class="button ghost" href="/support-garutvon"><i class="fa-solid fa-heart"></i> Support GarutVON</a>
   </footer>

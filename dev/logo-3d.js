@@ -1,11 +1,6 @@
-;(function(){
-  function initLogo3D() {
-    if (typeof THREE === 'undefined') {
-      console.warn('Three.js is not loaded; 3D logo will not be displayed.');
-      return;
-    }
-    const container = document.getElementById('logo-3d-container');
-    if (!container) return;
+(function(){
+  const container = document.getElementById('logo-3d-container');
+  if(!container) return;
 
   let width = container.clientWidth || 640;
   let height = container.clientHeight || 480;
@@ -39,20 +34,14 @@
     scene.add(logoMesh);
   }
 
-    const loader = new THREE.TextureLoader();
+  const loader = new THREE.TextureLoader();
   loader.crossOrigin = '';
-    loader.load('/static/images/ist-logo.svg',
+  loader.load('/static/images/ist-logo.png',
     function(tex){ createPlane(tex); },
     undefined,
     function(){
       // fallback to favicon if custom image not present
-        loader.load('/static/icons/favicon.svg', function(tex){ createPlane(tex); }, undefined, function(){
-          const geom = new THREE.PlaneGeometry(5, 5);
-          const mat = new THREE.MeshStandardMaterial({ color: 0x5eb5ff, transparent: true, opacity: 0.8 });
-          logoMesh = new THREE.Mesh(geom, mat);
-          logoMesh.position.set(0, -0.3, -1.8);
-          scene.add(logoMesh);
-        });
+      loader.load('/static/icons/favicon.svg', function(tex){ createPlane(tex); });
     }
   );
 
@@ -63,7 +52,7 @@
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
   }
-    window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('resize', onResize, { passive: true });
 
   let t = 0;
   function animate(){
@@ -76,12 +65,5 @@
     }
     renderer.render(scene, camera);
   }
-    animate();
-  }
-
-  if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', initLogo3D, { once: true });
-  } else {
-    initLogo3D();
-  }
+  animate();
 })();
