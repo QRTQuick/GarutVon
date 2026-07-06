@@ -1,4 +1,5 @@
 import os
+import tempfile
 from datetime import timedelta
 
 from dotenv import load_dotenv
@@ -6,11 +7,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def normalize_database_url(url: str) -> str:
+    cleaned = url.strip().strip("'\"").replace(" ", "")
+    if cleaned.startswith("postgresql://"):
+        return cleaned.replace("postgresql://", "postgresql+psycopg://", 1)
+    return cleaned
+
+
 class Config:
     APP_NAME = os.getenv("APP_NAME", "GarutVON")
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-garutvon-secret")
     JWT_SECRET = os.getenv("JWT_SECRET", SECRET_KEY)
-    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///garutvon_dev.db")
+    DATABASE_URL = normalize_database_url(os.getenv("DATABASE_URL", f"sqlite:///{os.path.join(tempfile.gettempdir(), 'garutvon_dev.db')}"))
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     DONATION_URL = os.getenv("DONATION_URL", "https://myhappr.com/chisomlifeeugsh")
     DOWNLOAD_URL = os.getenv("DOWNLOAD_URL", "/download/garutvon-latest.exe")
