@@ -27,16 +27,27 @@ class Config:
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     DONATION_URL = os.getenv("DONATION_URL", "https://myhappr.com/chisomlifeeugsh")
     PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://localhost:5000").rstrip("/")
+    # Default download URLs point to the GitHub Releases 'latest' assets for this repository.
     DOWNLOAD_URL_WINDOWS = os.getenv(
         "DOWNLOAD_URL_WINDOWS",
-        os.getenv("DOWNLOAD_URL", "/download/garutvon-latest.exe"),
+        os.getenv(
+            "DOWNLOAD_URL",
+            f"https://github.com/QRTQuick/GarutVon/releases/latest/download/garutvon-windows-x86_64.zip",
+        ),
     )
     DOWNLOAD_URL_MAC = os.getenv(
-        "DOWNLOAD_URL_MAC", os.getenv("DOWNLOAD_URL", "/download/garutvon-latest.dmg")
+        "DOWNLOAD_URL_MAC",
+        os.getenv(
+            "DOWNLOAD_URL",
+            f"https://github.com/QRTQuick/GarutVon/releases/latest/download/garutvon-macos-x86_64.tar.gz",
+        ),
     )
     DOWNLOAD_URL_LINUX = os.getenv(
         "DOWNLOAD_URL_LINUX",
-        os.getenv("DOWNLOAD_URL", "/download/garutvon-latest.AppImage"),
+        os.getenv(
+            "DOWNLOAD_URL",
+            f"https://github.com/QRTQuick/GarutVon/releases/latest/download/garutvon-linux-x86_64.tar.gz",
+        ),
     )
     DOWNLOAD_URL = DOWNLOAD_URL_WINDOWS
     LATEST_VERSION = os.getenv("LATEST_VERSION", "1.0.0")
