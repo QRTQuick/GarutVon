@@ -1,21 +1,23 @@
 # GarutVON Desktop Client
 
-This folder contains a simple desktop client built with Tkinter that connects to the GarutVON API mounted at `/api`.
+This folder contains a developer desktop client for GarutVON.
+
+We've consolidated the example client into a single-file runner: `dev/main.py` which bundles the API client, UI and styling in one file for quick testing.
 
 ## Features
-- Login-style app shell with a glassy black UI
+- Single-file Python/Tkinter client (`dev/main.py`) — run it directly with `python dev/main.py`.
 - API health check and version fetch
 - Text summarization via `/api/summarize`
-- Modular code split across `api_client.py`, `ui.py`, `style.py`, and `run.py`
+- Simple glass-style UI for experimenting with endpoint calls
 
 ## Run
 
-From the repo root, start the web server first, then run:
+Start the backend web server first, then from the repo root run:
 
 ```powershell
-python -m garutvon.desktop.run
+python dev/main.py
 ```
 
 ## Notes
-- The desktop app uses the existing `httpx` package already present in `requirements.txt`.
-- The app is designed as a UI wrapper around the API endpoints rather than a full desktop auth system.
+- The client requires `httpx` (install via `pip install httpx`).
+- The single-file client is intended for local testing and exploration — not production distribution. It exercises the live API endpoints.
