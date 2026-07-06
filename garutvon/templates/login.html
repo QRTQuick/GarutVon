@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="page-head"><h1>Login</h1><p>Access your dashboard, API keys, usage and security settings.</p></section>
-<form class="form glass" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Email<input name="email" type="email" required></label><label>Password<input name="password" type="password" required></label><button class="button" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button><a href="/register">Create an account</a></form>
+<section class="auth-shell">
+  <div class="auth-art" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="auth-copy">
+    <p class="eyebrow">Secure Access</p>
+    <h1>Login</h1>
+    <p>Access your dashboard, API keys, usage, security settings and developer tools.</p>
+  </div>
+  <form class="form glass auth-form" method="post" data-auth-form>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Email<input name="email" type="email" autocomplete="email" required></label>
+    <label>Password
+      <span class="password-row"><input name="password" type="password" autocomplete="current-password" required><button class="icon-button" type="button" data-toggle-password aria-label="Show password"><i class="fa-solid fa-eye"></i></button></span>
+    </label>
+    <p class="auth-note"><i class="fa-solid fa-shield-halved"></i> Use the email and password you created for GarutVON.</p>
+    <button class="button" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+    <a href="/register">Create an account</a>
+  </form>
+</section>
 {% endblock %}

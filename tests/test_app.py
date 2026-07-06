@@ -34,3 +34,23 @@ def test_support_and_seo_routes_render():
     assert b"Sitemap:" in robots.data
     assert sitemap.status_code == 200
     assert b"/support-garutvon" in sitemap.data
+
+
+def test_register_rejects_weak_password():
+    app = create_app()
+    app.config.update(TESTING=True, WTF_CSRF_ENABLED=False)
+    client = app.test_client()
+
+    response = client.post(
+        "/register",
+        data={
+            "name": "Weak User",
+            "email": "weak-user@example.com",
+            "password": "password123",
+            "confirm_password": "password123",
+        },
+        follow_redirects=True,
+    )
+
+    assert response.status_code == 200
+    assert b"Your password is too weak" in response.data

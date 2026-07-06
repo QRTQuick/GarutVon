@@ -1,5 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="page-head"><h1>Create Account</h1><p>Start with a dashboard, API key and developer usage tracking.</p></section>
-<form class="form glass" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Name<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Password<input name="password" type="password" minlength="8" required></label><button class="button" type="submit"><i class="fa-solid fa-user-plus"></i> Register</button></form>
+<section class="auth-shell">
+  <div class="auth-art" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="auth-copy">
+    <p class="eyebrow">Create Developer Access</p>
+    <h1>Create Account</h1>
+    <p>Start with a dashboard, API key, usage tracking, support tools and secure account settings.</p>
+  </div>
+  <form class="form glass auth-form" method="post" data-register-form>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Name<input name="name" autocomplete="name" minlength="2" required></label>
+    <label>Email<input name="email" type="email" autocomplete="email" required></label>
+    <label>Password
+      <span class="password-row"><input name="password" type="password" minlength="10" autocomplete="new-password" required data-password-input><button class="icon-button" type="button" data-toggle-password aria-label="Show password"><i class="fa-solid fa-eye"></i></button></span>
+    </label>
+    <div class="password-meter" aria-live="polite">
+      <span data-meter-bar></span>
+    </div>
+    <ul class="password-rules" data-password-rules>
+      <li data-rule="length">At least 10 characters</li>
+      <li data-rule="upper">One uppercase letter</li>
+      <li data-rule="lower">One lowercase letter</li>
+      <li data-rule="number">One number</li>
+      <li data-rule="symbol">One symbol</li>
+      <li data-rule="common">Not a common or taken password</li>
+    </ul>
+    <label>Confirm Password<input name="confirm_password" type="password" autocomplete="new-password" required data-confirm-password></label>
+    <p class="auth-note" data-password-message><i class="fa-solid fa-circle-info"></i> Password strength will appear as you type.</p>
+    <button class="button" type="submit"><i class="fa-solid fa-user-plus"></i> Register</button>
+    <a href="/login">Already have an account?</a>
+  </form>
+</section>
 {% endblock %}

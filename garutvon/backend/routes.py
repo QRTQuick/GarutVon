@@ -1,11 +1,24 @@
 from functools import wraps
+import re
 
 from flask import Blueprint, Response, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from garutvon.database import ApiKey, ApiLog, Download, SupportTicket, User, db_session
 
 site = Blueprint("site", __name__)
+
+COMMON_PASSWORDS = {
+    "password",
+    "password123",
+    "12345678",
+    "123456789",
+    "qwerty123",
+    "garutvon",
+    "admin123",
+    "letmein123",
+}
 
 PAGES = {
     "/": ("home", "index.html", "Home"),
@@ -29,6 +42,29 @@ def admin_required(view):
         return view(*args, **kwargs)
 
     return wrapped
+
+
+def password_issues(password: str, email: str = "", name: str = "") -> list[str]:
+    lowered = password.lower()
+    issues = []
+    if len(password) < 10:
+        issues.append("Use at least 10 characters.")
+    if not re.search(r"[A-Z]", password):
+        issues.append("Add an uppercase letter.")
+    if not re.search(r"[a-z]", password):
+        issues.append("Add a lowercase letter.")
+    if not re.search(r"\d", password):
+        issues.append("Add a number.")
+    if not re.search(r"[^A-Za-z0-9]", password):
+        issues.append("Add a symbol.")
+    if lowered in COMMON_PASSWORDS:
+        issues.append("This password is too common.")
+    email_name = email.split("@", 1)[0].lower()
+    if email_name and email_name in lowered:
+        issues.append("Do not include your email name in the password.")
+    if name and name.lower().replace(" ", "") in lowered.replace(" ", ""):
+        issues.append("Do not include your name in the password.")
+    return issues
 
 
 @site.context_processor
@@ -56,10 +92,16 @@ def login():
 def login_post():
     email = request.form.get("email", "").strip().lower()
     password = request.form.get("password", "")
-    user = db_session.query(User).filter_by(email=email).first()
-    if user and user.check_password(password):
-        login_user(user, remember=True)
-        return redirect(url_for("site.dashboard"))
+    try:
+        user = db_session.query(User).filter_by(email=email).first()
+        if user and user.check_password(password):
+            login_user(user, remember=True)
+            return redirect(url_for("site.dashboard"))
+    except SQLAlchemyError:
+        db_session.rollback()
+        current_app.logger.exception("Login database error")
+        flash("Login is temporarily unavailable. Please try again.", "error")
+        return redirect(url_for("site.login"))
     flash("Invalid email or password.", "error")
     return redirect(url_for("site.login"))
 
@@ -74,20 +116,43 @@ def register_post():
     name = request.form.get("name", "").strip()
     email = request.form.get("email", "").strip().lower()
     password = request.form.get("password", "")
-    if len(password) < 8 or not name or "@" not in email:
-        flash("Use a valid name, email, and a password with at least 8 characters.", "error")
+    confirm_password = request.form.get("confirm_password", "")
+    if not name or len(name) < 2 or "@" not in email:
+        flash("Use a valid name and email address.", "error")
         return redirect(url_for("site.register"))
-    if db_session.query(User).filter_by(email=email).first():
-        flash("That email is already registered.", "error")
+    if password != confirm_password:
+        flash("Passwords do not match.", "error")
+        return redirect(url_for("site.register"))
+    issues = password_issues(password, email=email, name=name)
+    if issues:
+        flash("Your password is too weak: " + " ".join(issues), "error")
+        return redirect(url_for("site.register"))
+    try:
+        if db_session.query(User).filter_by(email=email).first():
+            flash("That email is already registered. Please log in instead.", "error")
+            return redirect(url_for("site.login"))
+        user = User(name=name, email=email, is_admin=db_session.query(User).count() == 0)
+        user.set_password(password)
+        db_session.add(user)
+        db_session.flush()
+        db_session.add(ApiKey(user_id=user.id, label="Production key"))
+        db_session.commit()
+        login_user(user)
+        return redirect(url_for("site.dashboard"))
+    except IntegrityError:
+        db_session.rollback()
+        flash("That email is already registered. Please log in instead.", "error")
         return redirect(url_for("site.login"))
-    user = User(name=name, email=email, is_admin=db_session.query(User).count() == 0)
-    user.set_password(password)
-    db_session.add(user)
-    db_session.flush()
-    db_session.add(ApiKey(user_id=user.id, label="Production key"))
-    db_session.commit()
-    login_user(user)
-    return redirect(url_for("site.dashboard"))
+    except SQLAlchemyError:
+        db_session.rollback()
+        current_app.logger.exception("Registration database error")
+        flash("Account creation is temporarily unavailable. Please try again in a moment.", "error")
+        return redirect(url_for("site.register"))
+    except Exception:
+        db_session.rollback()
+        current_app.logger.exception("Registration error")
+        flash("We could not create your account right now. Please try again.", "error")
+        return redirect(url_for("site.register"))
 
 
 @site.post("/logout")
