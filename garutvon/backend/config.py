@@ -21,6 +21,7 @@ class Config:
     DATABASE_URL = normalize_database_url(os.getenv("DATABASE_URL", f"sqlite:///{os.path.join(tempfile.gettempdir(), 'garutvon_dev.db')}"))
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     DONATION_URL = os.getenv("DONATION_URL", "https://myhappr.com/chisomlifeeugsh")
+    PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://localhost:5000").rstrip("/")
     DOWNLOAD_URL = os.getenv("DOWNLOAD_URL", "/download/garutvon-latest.exe")
     LATEST_VERSION = os.getenv("LATEST_VERSION", "1.0.0")
     LATEST_CHECKSUM = os.getenv("LATEST_CHECKSUM", "sha256:local-development-build")

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block meta_description %}Support GarutVON with a $1 MyHappr Smile donation. Donations help fund new features, bug fixes, infrastructure, AI services and long-term development.{% endblock %}
+{% block content %}
+<section class="support-hero">
+  <div>
+    <p class="eyebrow">Support GarutVON</p>
+    <h1>Help keep GarutVON free and growing.</h1>
+    <p>GarutVON is free to download and use. Support helps fund new features, bug fixes, infrastructure, AI services, web app conversion work and long-term development.</p>
+    <div class="actions">
+      <a class="button" href="{{ donation_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Open MyHappr</a>
+      <a class="button ghost" href="mailto:{{ support_email }}"><i class="fa-solid fa-envelope"></i> {{ support_email }}</a>
+      <a class="button secondary" href="{{ x_url }}" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i> Follow on X</a>
+    </div>
+  </div>
+  <div class="support-panel">
+    <iframe src="https://myhappr.com/embed/chisomlifeeugsh?text=A+smile+is+%241+only+%F0%9F%98%98%F0%9F%98%98&color=%235EB5FF&font=Geist&title=Support+GarutVon+%241+only+" width="100%" height="600" frameborder="0" scrolling="no" title="Support GarutVON on MyHappr"></iframe>
+  </div>
+</section>
+{% endblock %}

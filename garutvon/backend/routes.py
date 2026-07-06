@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
+from flask import Blueprint, Response, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from garutvon.database import ApiKey, ApiLog, Download, SupportTicket, User, db_session
@@ -16,6 +16,7 @@ PAGES = {
     "/api-page": ("api_page", "api.html", "API"),
     "/developers": ("developers", "developers.html", "Developers"),
     "/documentation": ("documentation", "documentation.html", "Documentation"),
+    "/support-garutvon": ("support_page", "support.html", "Support"),
 }
 
 
@@ -36,6 +37,9 @@ def globals_for_templates():
         "donation_url": current_app.config["DONATION_URL"],
         "download_url": current_app.config["DOWNLOAD_URL"],
         "latest_version": current_app.config["LATEST_VERSION"],
+        "public_base_url": current_app.config["PUBLIC_BASE_URL"],
+        "support_email": "garutvon@gmail.com",
+        "x_url": "https://x.com/GarutVon",
     }
 
 
@@ -130,6 +134,44 @@ def support():
 @site.get("/contact")
 def contact():
     return render_template("contact.html", title="Contact")
+
+
+@site.get("/robots.txt")
+def robots_txt():
+    base_url = current_app.config["PUBLIC_BASE_URL"]
+    body = f"""User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+
+Sitemap: {base_url}/sitemap.xml
+"""
+    return Response(body, mimetype="text/plain")
+
+
+@site.get("/sitemap.xml")
+def sitemap_xml():
+    base_url = current_app.config["PUBLIC_BASE_URL"]
+    urls = [
+        ("/", "1.0", "daily"),
+        ("/about", "0.8", "weekly"),
+        ("/features", "0.9", "weekly"),
+        ("/download", "0.9", "weekly"),
+        ("/pricing", "0.8", "weekly"),
+        ("/api-page", "0.8", "weekly"),
+        ("/developers", "0.8", "weekly"),
+        ("/documentation", "0.8", "weekly"),
+        ("/contact", "0.6", "monthly"),
+        ("/support-garutvon", "0.7", "weekly"),
+    ]
+    items = "\n".join(
+        f"  <url><loc>{base_url}{path}</loc><changefreq>{freq}</changefreq><priority>{priority}</priority></url>"
+        for path, priority, freq in urls
+    )
+    body = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}\n</urlset>\n'
+    return Response(body, mimetype="application/xml")
 
 
 @site.get("/download/track")
