@@ -6,7 +6,7 @@ CARD_SOFT = "#1f2031"
 TEXT = "#f5f5f7"
 MUTED = "#9da3b8"
 ACCENT = "#7fc7ff"
-BORDER = "#ffffff22"
+BORDER = "#ffffff"
 
 
 def style_frame(frame: tk.Frame) -> None:

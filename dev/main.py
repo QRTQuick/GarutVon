@@ -7,8 +7,10 @@ Run with: python dev/main.py
 from __future__ import annotations
 
 import sys
+import json
 import tkinter as tk
-from tkinter import messagebox
+from pathlib import Path
+from tkinter import filedialog, messagebox, simpledialog
 from tkinter.scrolledtext import ScrolledText
 
 try:
@@ -17,6 +19,31 @@ except Exception as e:
     print("httpx is required. Install with: pip install httpx")
     raise
 
+# Local dev config path
+_LOCAL_CONFIG = Path.home() / ".garutvon_dev_config.json"
+
+
+def _load_local_config() -> dict:
+    try:
+        if _LOCAL_CONFIG.exists():
+            return json.loads(_LOCAL_CONFIG.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    return {}
+
+
+def _save_local_api_key(key: str) -> None:
+    cfg = _load_local_config()
+    cfg["api_key"] = key
+    try:
+        _LOCAL_CONFIG.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+
+def _get_local_api_key() -> str | None:
+    return _load_local_config().get("api_key")
+
 # -------------------- style.py (inlined) --------------------
 BG = "#07070d"
 CARD = "#11131d"
@@ -24,7 +51,8 @@ CARD_SOFT = "#1f2031"
 TEXT = "#f5f5f7"
 MUTED = "#9da3b8"
 ACCENT = "#7fc7ff"
-BORDER = "#ffffff22"
+# Tkinter does not support 8-digit hex (alpha) here — use a 6-digit hex instead
+BORDER = "#ffffff"
 
 
 def style_frame(frame: tk.Frame) -> None:
@@ -60,28 +88,89 @@ def style_button(button: tk.Button) -> None:
 
 # -------------------- api_client.py (inlined) --------------------
 class ApiClient:
-    def __init__(self, base_url: str = "http://127.0.0.1:5000/api") -> None:
+    def __init__(
+        self, base_url: str = "http://127.0.0.1:5000/api", api_key: str | None = None
+    ) -> None:
         self.base_url = base_url.rstrip("/")
+        self.api_key = api_key
+        self.access_token: str | None = None
         self.client = httpx.Client(timeout=10.0)
+
+    def set_api_key(self, api_key: str | None) -> None:
+        self.api_key = api_key
 
     def _url(self, path: str) -> str:
         return f"{self.base_url}{path}"
 
+    def _headers(self) -> dict:
+        headers = {"Accept": "application/json"}
+        if self.api_key:
+            headers["X-API-KEY"] = self.api_key
+        if self.access_token:
+            headers["Authorization"] = f"Bearer {self.access_token}"
+        return headers
+
     def health(self) -> dict:
-        response = self.client.get(self._url("/health"))
+        response = self.client.get(self._url("/health"), headers=self._headers())
         response.raise_for_status()
         return response.json()
 
     def version(self) -> dict:
-        response = self.client.get(self._url("/version"))
+        response = self.client.get(self._url("/version"), headers=self._headers())
         response.raise_for_status()
         return response.json()
 
     def summarize(self, text: str, target_language: str = "en") -> dict:
         payload = {"text": text, "target_language": target_language}
-        response = self.client.post(self._url("/summarize"), json=payload)
+        response = self.client.post(
+            self._url("/summarize"), json=payload, headers=self._headers()
+        )
         response.raise_for_status()
         return response.json()
+
+    def register(self, email: str, password: str) -> dict:
+        payload = {"email": email, "password": password}
+        response = self.client.post(
+            self._url("/auth/register"), json=payload, headers=self._headers()
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def login(self, email: str, password: str) -> dict:
+        data = {"username": email, "password": password}
+        response = self.client.post(
+            self._url("/auth/token"), data=data, headers=self._headers()
+        )
+        response.raise_for_status()
+        token_data = response.json()
+        self.access_token = token_data.get("access_token")
+        return token_data
+
+    def forgot_password(self, email: str) -> dict:
+        payload = {"email": email}
+        response = self.client.post(
+            self._url("/auth/forgot-password"), json=payload, headers=self._headers()
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def reset_password(self, token: str, new_password: str) -> dict:
+        payload = {"token": token, "new_password": new_password}
+        response = self.client.post(
+            self._url("/auth/reset-password"), json=payload, headers=self._headers()
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def convert_file(self, file_path: str, target_format: str) -> dict:
+        with open(file_path, "rb") as f:
+            files = {"file": (file_path, f)}
+            data = {"target_format": target_format}
+            response = self.client.post(
+                self._url("/convert"), files=files, data=data, headers=self._headers()
+            )
+            response.raise_for_status()
+            return response.json()
 
 
 # -------------------- ui.py (inlined) --------------------
@@ -128,7 +217,7 @@ class DesktopApp:
             highlightthickness=1,
             highlightbackground=BORDER,
         )
-        frame.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.5, relheight=0.55)
+        frame.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.5, relheight=0.65)
         style_frame(frame)
 
         label = tk.Label(
@@ -142,20 +231,40 @@ class DesktopApp:
 
         self.email_var = tk.StringVar()
         self.password_var = tk.StringVar()
+        self.api_key_var = tk.StringVar()
 
         self._make_field(frame, "Email", self.email_var)
         self._make_field(frame, "Password", self.password_var, show="*")
+        self._make_field(frame, "API Key (optional)", self.api_key_var)
 
         button = tk.Button(frame, text="Connect to API", command=self._handle_login)
         style_button(button)
-        button.pack(pady=(20, 16))
+        button.pack(pady=(20, 10))
+
+        register_button = tk.Button(frame, text="Register", command=self._handle_register)
+        style_button(register_button)
+        register_button.pack(pady=(0, 10))
+
+        forgot_button = tk.Button(frame, text="Forgot Password?", command=self._handle_forgot_password)
+        style_button(forgot_button)
+        forgot_button.pack(pady=(0, 8))
+
+        save_key_button = tk.Button(frame, text="Save API Key Locally", command=self._handle_save_api_key)
+        style_button(save_key_button)
+        save_key_button.pack(pady=(0, 8))
+
+        reset_token_button = tk.Button(frame, text="Reset Password (token)", command=self._open_reset_dialog)
+        style_button(reset_token_button)
+        reset_token_button.pack(pady=(0, 8))
 
         self.login_status = tk.Label(
             frame,
-            text="Enter your email and password to unlock the desktop tools.",
+            text="Use an API key or your account credentials to connect. Forgot password is supported.",
             bg=CARD,
             fg=MUTED,
             font=("Inter", 10),
+            wraplength=380,
+            justify="center",
         )
         self.login_status.pack(pady=(0, 12))
 
@@ -240,6 +349,7 @@ class DesktopApp:
         )
         self._make_action_button(right_panel, "Check API Health", self._check_health)
         self._make_action_button(right_panel, "Fetch API Version", self._fetch_version)
+        self._make_action_button(right_panel, "Convert File", self._choose_convert_file)
         self._make_action_button(right_panel, "Reset Session", self._reset_app)
 
         self.api_details = tk.Label(
@@ -282,14 +392,28 @@ class DesktopApp:
         style_button(button)
         button.pack(fill="x", padx=18, pady=10)
 
+    def _make_text_action(self, parent: tk.Frame, text: str, command) -> None:
+        label = tk.Label(parent, text=text, fg=ACCENT, bg=CARD, cursor="hand2")
+        label.pack(padx=18, pady=6)
+        label.bind("<Button-1>", lambda _: command())
+
     def _handle_login(self) -> None:
-        email = self.email_var.get().strip()
-        password = self.password_var.get().strip()
-        if not email or not password:
-            messagebox.showwarning(
-                "Missing fields", "Enter both email and password to continue."
-            )
-            return
+        api_key = self.api_key_var.get().strip()
+        if api_key:
+            self.api.set_api_key(api_key)
+        else:
+            email = self.email_var.get().strip()
+            password = self.password_var.get().strip()
+            if not email or not password:
+                messagebox.showwarning(
+                    "Missing fields", "Enter both email and password to continue."
+                )
+                return
+            try:
+                self.api.login(email, password)
+            except Exception as exc:
+                messagebox.showerror("Login failed", f"{exc}")
+                return
 
         try:
             health = self.api.health()
@@ -306,6 +430,101 @@ class DesktopApp:
             messagebox.showerror(
                 "Connection error", f"Could not connect to API:\n{exc}"
             )
+
+    def _handle_register(self) -> None:
+        # open a simple register dialog
+        dlg = tk.Toplevel(self.root)
+        dlg.title("Register")
+        dlg.geometry("420x220")
+        style_frame(dlg)
+
+        email_var = tk.StringVar()
+        password_var = tk.StringVar()
+        confirm_var = tk.StringVar()
+
+        tk.Label(dlg, text="Email", bg=CARD, fg=TEXT).pack(anchor="w", padx=12, pady=(12, 0))
+        tk.Entry(dlg, textvariable=email_var, bg="#141528", fg=TEXT).pack(fill="x", padx=12, pady=(4, 8))
+        tk.Label(dlg, text="Password", bg=CARD, fg=TEXT).pack(anchor="w", padx=12, pady=(4, 0))
+        tk.Entry(dlg, textvariable=password_var, show="*", bg="#141528", fg=TEXT).pack(fill="x", padx=12, pady=(4, 8))
+        tk.Label(dlg, text="Confirm Password", bg=CARD, fg=TEXT).pack(anchor="w", padx=12, pady=(4, 0))
+        tk.Entry(dlg, textvariable=confirm_var, show="*", bg="#141528", fg=TEXT).pack(fill="x", padx=12, pady=(4, 12))
+
+        def _do_register():
+            e = email_var.get().strip()
+            p = password_var.get().strip()
+            c = confirm_var.get().strip()
+            if not e or not p:
+                messagebox.showwarning("Missing fields", "Enter email and password.", parent=dlg)
+                return
+            if p != c:
+                messagebox.showwarning("Mismatch", "Passwords do not match.", parent=dlg)
+                return
+            try:
+                resp = self.api.register(e, p)
+                messagebox.showinfo("Registered", f"Account created: {resp.get('email')}", parent=dlg)
+                dlg.destroy()
+            except Exception as exc:
+                messagebox.showerror("Register failed", f"{exc}", parent=dlg)
+
+        btn = tk.Button(dlg, text="Register", command=_do_register)
+        style_button(btn)
+        btn.pack(pady=(4, 12))
+
+    def _handle_forgot_password(self) -> None:
+        # open a small dialog to request password reset email
+        email = self.email_var.get().strip()
+        if not email:
+            email = simpledialog.askstring("Forgot password", "Enter your account email:", parent=self.root)
+            if not email:
+                return
+        try:
+            response = self.api.forgot_password(email)
+            messagebox.showinfo("Password reset", response.get("message", "Reset email sent."))
+        except Exception as exc:
+            messagebox.showerror("Forgot password failed", f"{exc}")
+
+    def _handle_save_api_key(self) -> None:
+        key = self.api_key_var.get().strip()
+        if not key:
+            messagebox.showwarning("Missing key", "Enter an API key to save locally.")
+            return
+        try:
+            _save_local_api_key(key)
+            self.api.set_api_key(key)
+            messagebox.showinfo("Saved", "API key saved locally to ~/.garutvon_dev_config.json")
+        except Exception as exc:
+            messagebox.showerror("Save failed", f"{exc}")
+
+    def _open_reset_dialog(self) -> None:
+        dlg = tk.Toplevel(self.root)
+        dlg.title("Reset Password (token)")
+        dlg.geometry("420x200")
+        style_frame(dlg)
+
+        token_var = tk.StringVar()
+        newpw_var = tk.StringVar()
+
+        tk.Label(dlg, text="Reset Token", bg=CARD, fg=TEXT).pack(anchor="w", padx=12, pady=(12, 0))
+        tk.Entry(dlg, textvariable=token_var, bg="#141528", fg=TEXT).pack(fill="x", padx=12, pady=(4, 8))
+        tk.Label(dlg, text="New Password", bg=CARD, fg=TEXT).pack(anchor="w", padx=12, pady=(4, 0))
+        tk.Entry(dlg, textvariable=newpw_var, show="*", bg="#141528", fg=TEXT).pack(fill="x", padx=12, pady=(4, 12))
+
+        def _do_reset():
+            t = token_var.get().strip()
+            p = newpw_var.get().strip()
+            if not t or not p:
+                messagebox.showwarning("Missing fields", "Enter token and new password.", parent=dlg)
+                return
+            try:
+                resp = self.api.reset_password(t, p)
+                messagebox.showinfo("Password reset", resp.get("message", "Password changed."), parent=dlg)
+                dlg.destroy()
+            except Exception as exc:
+                messagebox.showerror("Reset failed", f"{exc}", parent=dlg)
+
+        btn = tk.Button(dlg, text="Reset Password", command=_do_reset)
+        style_button(btn)
+        btn.pack(pady=(4, 12))
 
     def _handle_summarize(self) -> None:
         if not self.logged_in:
@@ -353,9 +572,30 @@ class DesktopApp:
         self.logged_in = False
         self.email_var.set("")
         self.password_var.set("")
+        self.api_key_var.set("")
         self.api_details.configure(text="")
         self.main_container.pack_forget()
         self.login_container.pack(fill="both", expand=True, padx=22, pady=12)
+
+    def _choose_convert_file(self) -> None:
+        if not self.logged_in:
+            messagebox.showwarning("Not connected", "Please connect to the API first.")
+            return
+        file_path = filedialog.askopenfilename(
+            title="Convert File", filetypes=[("All files", "*")]
+        )
+        if not file_path:
+            return
+        target_format = tk.simpledialog.askstring(
+            "Target format", "Enter target format (e.g. pdf, docx, txt):"
+        )
+        if not target_format:
+            return
+        try:
+            result = self.api.convert_file(file_path, target_format)
+            messagebox.showinfo("Conversion queued", f"{result}")
+        except Exception as exc:
+            messagebox.showerror("Conversion failed", f"{exc}")
 
 
 # -------------------- run.py (inlined) --------------------
