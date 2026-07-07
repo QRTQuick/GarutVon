@@ -1,0 +1,20 @@
+# Development files
+dev/
+tests/
+*.pyc
+__pycache__/
+.pytest_cache/
+.gitignore
+README.md
+LICENSE
+*.md
+.git
+.env
+.env.local
+local.env
+tmp_check_routes.py
+build_pyoxidizer.bat
+build_pyoxidizer.sh
+pyoxidizer.bzl
+GarutVON_AI_Build_Prompt.txt
+alembic.ini
