@@ -1,8 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog, simpledialog
 from tkinter.scrolledtext import ScrolledText
 
 from .api_client import ApiClient
+from .config import get_api_key, set_api_key
 from .style import (
     ACCENT,
     BG,
@@ -21,6 +22,10 @@ class DesktopApp:
     def __init__(self, root: tk.Tk, api_client: ApiClient) -> None:
         self.root = root
         self.api = api_client
+        # load saved API key from local config if present
+        self.configured_api_key = get_api_key()
+        if self.configured_api_key:
+            self.api.set_api_key(self.configured_api_key)
         self.root.title("GarutVON Desktop Client")
         self.root.configure(bg=BG)
         self.root.geometry("980x660")
@@ -74,17 +79,23 @@ class DesktopApp:
 
         self.email_var = tk.StringVar()
         self.password_var = tk.StringVar()
+        self.api_key_var = tk.StringVar(value=self.configured_api_key or "")
 
         self._make_field(frame, "Email", self.email_var)
         self._make_field(frame, "Password", self.password_var, show="*")
+        self._make_field(frame, "API Key (paste here)", self.api_key_var)
 
         button = tk.Button(frame, text="Connect to API", command=self._handle_login)
         style_button(button)
         button.pack(pady=(20, 16))
 
+        key_button = tk.Button(frame, text="Save API Key", command=self._handle_save_api_key)
+        style_button(key_button)
+        key_button.pack(pady=(0, 6))
+
         self.login_status = tk.Label(
             frame,
-            text="Enter your email and password to unlock the desktop tools.",
+            text="Enter your email/password or paste an API key to unlock the desktop tools.",
             bg=CARD,
             fg=MUTED,
             font=("Inter", 10),
@@ -173,6 +184,11 @@ class DesktopApp:
         self._make_action_button(right_panel, "Check API Health", self._check_health)
         self._make_action_button(right_panel, "Fetch API Version", self._fetch_version)
         self._make_action_button(right_panel, "Reset Session", self._reset_app)
+        self._make_action_button(right_panel, "Convert File", lambda: self._ask_file_and_call("Convert File"))
+        self._make_action_button(right_panel, "OCR File", lambda: self._ask_file_and_call("OCR File"))
+        self._make_action_button(right_panel, "Metadata", lambda: self._ask_file_and_call("Metadata"))
+        self._make_action_button(right_panel, "Compress", lambda: self._ask_file_and_call("Compress"))
+        self._make_action_button(right_panel, "Background Remove", lambda: self._ask_file_and_call("Background Remove"))
 
         self.api_details = tk.Label(
             right_panel,
@@ -215,6 +231,29 @@ class DesktopApp:
         button.pack(fill="x", padx=18, pady=10)
 
     def _handle_login(self) -> None:
+        api_key = self.api_key_var.get().strip()
+        if api_key:
+            # prefer API key if provided
+            self.api.set_api_key(api_key)
+            try:
+                health = self.api.health()
+                self.logged_in = True
+                self.status_label.configure(
+                    text=f"API status: connected ({health.get('status','ok')})"
+                )
+                self.api_details.configure(
+                    text=f"Connected to {self.api.base_url}\nService version available."
+                )
+                # do not auto-save; user can press Save API Key
+                self.login_container.pack_forget()
+                self.main_container.pack(fill="both", expand=True, padx=0, pady=12)
+                return
+            except Exception as exc:
+                messagebox.showerror(
+                    "Connection error", f"API key connection failed:\n{exc}"
+                )
+                return
+
         email = self.email_var.get().strip()
         password = self.password_var.get().strip()
         if not email or not password:
@@ -238,6 +277,41 @@ class DesktopApp:
             messagebox.showerror(
                 "Connection error", f"Could not connect to API:\n{exc}"
             )
+
+    def _handle_save_api_key(self) -> None:
+        key = self.api_key_var.get().strip()
+        if not key:
+            messagebox.showwarning("Missing key", "Paste an API key before saving.")
+            return
+        set_api_key(key)
+        self.api.set_api_key(key)
+        messagebox.showinfo("Saved", "API key saved to local configuration.")
+
+    def _ask_file_and_call(self, action: str) -> None:
+        file_path = filedialog.askopenfilename(title=action, filetypes=[("All files", "*")])
+        if not file_path:
+            return
+        try:
+            if action == "Convert File":
+                target = simpledialog.askstring("Target format", "Enter target format (eg: pdf, docx, txt):")
+                if not target:
+                    return
+                result = self.api.convert_file(file_path, target)
+                messagebox.showinfo("Convert", f"Queued: {result}")
+            elif action == "OCR File":
+                result = self.api.ocr_file(file_path)
+                messagebox.showinfo("OCR Result", f"Text length: {len(result.get('text',''))}")
+            elif action == "Metadata":
+                result = self.api.metadata_file(file_path)
+                messagebox.showinfo("Metadata", f"{result}")
+            elif action == "Compress":
+                result = self.api.compress_file(file_path)
+                messagebox.showinfo("Compress", f"{result}")
+            elif action == "Background Remove":
+                result = self.api.background_remove(file_path)
+                messagebox.showinfo("Background Remove", f"{result}")
+        except Exception as exc:
+            messagebox.showerror(action + " failed", f"{exc}")
 
     def _handle_summarize(self) -> None:
         if not self.logged_in:
