@@ -25,3 +25,4 @@ flask
 flask-login
 flask-session
 flask-cors
+flask-wtf
