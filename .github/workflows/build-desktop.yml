@@ -4,6 +4,9 @@ on:
   push:
     branches: [ 'packaging' ]
 
+permissions:
+  contents: write
+
 env:
   REPO_OWNER: QRTQuick
   REPO_NAME: GarutVon
@@ -112,8 +115,7 @@ jobs:
           body: Release built desktop binaries for GarutVON
           draft: false
           prerelease: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload linux asset
         uses: actions/upload-release-asset@v1
         with:
@@ -121,6 +123,7 @@ jobs:
           asset_path: release-artifacts/${{ env.PACKAGE_BASE }}-linux-x86_64.tar.gz
           asset_name: ${{ env.PACKAGE_BASE }}-linux-x86_64.tar.gz
           asset_content_type: application/gzip
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload windows asset
         uses: actions/upload-release-asset@v1
         with:
@@ -128,6 +131,7 @@ jobs:
           asset_path: release-artifacts/${{ env.PACKAGE_BASE }}-windows-x86_64.zip
           asset_name: ${{ env.PACKAGE_BASE }}-windows-x86_64.zip
           asset_content_type: application/zip
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload macos asset
         uses: actions/upload-release-asset@v1
         with:
@@ -135,3 +139,4 @@ jobs:
           asset_path: release-artifacts/${{ env.PACKAGE_BASE }}-macos-x86_64.tar.gz
           asset_name: ${{ env.PACKAGE_BASE }}-macos-x86_64.tar.gz
           asset_content_type: application/gzip
+          token: ${{ secrets.GITHUB_TOKEN }}
