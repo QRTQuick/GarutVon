@@ -3,7 +3,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 
-from garutvon.api.main import api_app
+from garutvon.api_prod.main import app as api_app
 from garutvon.backend.config import Config
 from garutvon.backend.routes import site
 from garutvon.database import User, db_session, init_db
@@ -50,6 +50,6 @@ class Dispatcher:
         for prefix, app in self.mounts.items():
             if path == prefix or path.startswith(prefix + "/"):
                 environ["SCRIPT_NAME"] = environ.get("SCRIPT_NAME", "") + prefix
-                environ["PATH_INFO"] = path[len(prefix):] or "/"
+                environ["PATH_INFO"] = path[len(prefix) :] or "/"
                 return app(environ, start_response)
         return self.flask_app(environ, start_response)
