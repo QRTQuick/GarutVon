@@ -9,7 +9,7 @@
     <h1>Login</h1>
     <p>Access your dashboard, API keys, usage, security settings and developer tools.</p>
   </div>
-  <form class="form glass auth-form" method="post" data-auth-form>
+  <form class="form glass auth-form" method="post" data-auth-form data-loading="true">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     {% if next_url %}
       <input type="hidden" name="next" value="{{ next_url }}">

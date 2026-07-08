@@ -28,7 +28,8 @@ Open `http://127.0.0.1:5000`.
 ```powershell
 curl http://127.0.0.1:5000/api/health
 curl http://127.0.0.1:5000/api/version
-curl -X POST http://127.0.0.1:5000/api/summarize -H "Content-Type: application/json" -d "{\"text\":\"GarutVON helps every file workflow move faster.\"}"
+curl http://127.0.0.1:5000/api/supported-formats
+curl -X POST http://127.0.0.1:5000/api/convert -H "X-API-KEY: YOUR_KEY" -F "target_format=png" -F "file=@image.jpg"
 ```
 
 The desktop update endpoint is `GET /api/version`.

@@ -3,12 +3,13 @@ from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime
 from passlib.context import CryptContext
 import secrets
+from flask_login import UserMixin
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 Base = declarative_base()
 
 
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     email = Column(String(320), unique=True, nullable=False)
@@ -16,6 +17,9 @@ class User(Base):
     name = Column(String(200), nullable=True)
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
+
+    def get_id(self):
+        return str(self.id)
 
     def set_password(self, password: str):
         self.password_hash = pwd_ctx.hash(password)

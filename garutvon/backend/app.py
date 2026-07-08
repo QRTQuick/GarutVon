@@ -1,5 +1,6 @@
 from flask import Flask
 from a2wsgi import ASGIMiddleware
+from flask_login import LoginManager
 
 from .config import Config
 from .routes import site
@@ -11,6 +12,9 @@ try:
     from garutvon.api_prod.main import app as api_app
 except Exception:
     api_app = None
+
+
+login_manager = LoginManager()
 
 
 class Dispatcher:
@@ -36,6 +40,11 @@ def create_app() -> Flask:
         static_url_path="/static",
     )
     app.config.from_object(Config)
+
+    # initialize extensions
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
+
     app.register_blueprint(site)
 
     # initialize database tables
@@ -55,5 +64,15 @@ def create_app() -> Flask:
             'latest_version': app.config.get('LATEST_VERSION'),
             'public_base_url': app.config.get('PUBLIC_BASE_URL'),
         }
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        try:
+            db = SessionLocal()
+            user = db.get(User, int(user_id))
+            db.close()
+            return user
+        except Exception:
+            return None
 
     return app
