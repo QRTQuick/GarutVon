@@ -9,7 +9,6 @@ email-validator
 passlib[bcrypt]
 python-jose[cryptography]
 bcrypt
-resend
 httpx
 aiofiles
 python-multipart
@@ -26,3 +25,4 @@ flask
 flask-login
 flask-session
 flask-cors
+flask-wtf

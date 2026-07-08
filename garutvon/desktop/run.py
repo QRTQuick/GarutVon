@@ -1,8 +1,17 @@
+import os
+import sys
+from pathlib import Path
+
 import tkinter as tk
 
-from .api_client import ApiClient
-from .ui import DesktopApp
-from .config import get_base_url, get_api_key
+if __name__ == "__main__" and __package__ is None:
+    repo_root = Path(__file__).resolve().parents[1]
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+
+from garutvon.desktop.api_client import ApiClient
+from garutvon.desktop.ui import DesktopApp
+from garutvon.desktop.config import get_base_url, get_api_key
 
 
 def main() -> None:

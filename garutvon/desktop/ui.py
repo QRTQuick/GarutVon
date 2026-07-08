@@ -1,3 +1,9 @@
+import http.server
+import socket
+import threading
+import urllib.parse
+import webbrowser
+
 import tkinter as tk
 from tkinter import messagebox, filedialog, simpledialog
 from tkinter.scrolledtext import ScrolledText
@@ -16,6 +22,60 @@ from .style import (
     style_frame,
     style_label,
 )
+
+
+class BrowserLoginCallbackServer:
+    def __init__(self) -> None:
+        self.api_key: str | None = None
+        self._server: http.server.HTTPServer | None = None
+        self._thread: threading.Thread | None = None
+
+    def start(self) -> int:
+        handler = self._make_handler()
+        self._server = http.server.HTTPServer(("127.0.0.1", 0), handler)
+        self._thread = threading.Thread(target=self._server.serve_forever, daemon=True)
+        self._thread.start()
+        return self._server.server_address[1]
+
+    def _make_handler(self):
+        parent = self
+
+        class CallbackHandler(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):
+                parsed = urllib.parse.urlparse(self.path)
+                if parsed.path != "/callback":
+                    self.send_response(404)
+                    self.end_headers()
+                    self.wfile.write(b"Not found")
+                    return
+
+                query = urllib.parse.parse_qs(parsed.query)
+                api_key_list = query.get("api_key", [])
+                if not api_key_list:
+                    self.send_response(400)
+                    self.end_headers()
+                    self.wfile.write(b"Missing api_key")
+                    return
+
+                parent.api_key = api_key_list[0]
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(
+                    b"<html><body><h1>GarutVON login complete</h1><p>You may now return to the desktop application.</p></body></html>"
+                )
+                threading.Thread(target=self.server.shutdown, daemon=True).start()
+
+            def log_message(self, format: str, *args: object) -> None:
+                return
+
+        return CallbackHandler
+
+    def stop(self) -> None:
+        if self._server:
+            self._server.shutdown()
+        if self._thread:
+            self._thread.join(timeout=2)
 
 
 class DesktopApp:
@@ -92,6 +152,10 @@ class DesktopApp:
         key_button = tk.Button(frame, text="Save API Key", command=self._handle_save_api_key)
         style_button(key_button)
         key_button.pack(pady=(0, 6))
+
+        browser_button = tk.Button(frame, text="Login via Browser", command=self._handle_browser_login)
+        style_button(browser_button)
+        browser_button.pack(pady=(0, 6))
 
         self.login_status = tk.Label(
             frame,
@@ -286,6 +350,55 @@ class DesktopApp:
         set_api_key(key)
         self.api.set_api_key(key)
         messagebox.showinfo("Saved", "API key saved to local configuration.")
+
+    def _handle_browser_login(self) -> None:
+        try:
+            callback_server = BrowserLoginCallbackServer()
+            port = callback_server.start()
+            base_url = self.api.base_url.rstrip("/")
+            if base_url.endswith("/api"):
+                web_url = base_url[: -len("/api")]
+            else:
+                web_url = base_url
+            callback_url = f"http://127.0.0.1:{port}/callback"
+            login_url = f"{web_url}/login?next={urllib.parse.quote(callback_url, safe='')}"
+            webbrowser.open(login_url)
+            self.login_status.configure(
+                text="Waiting for browser login... Please complete login in the browser."
+            )
+
+            def check_callback() -> None:
+                if callback_server.api_key:
+                    api_key = callback_server.api_key
+                    self.api_key_var.set(api_key)
+                    self.api.set_api_key(api_key)
+                    set_api_key(api_key)
+                    callback_server.stop()
+                    self._complete_browser_login()
+                else:
+                    self.root.after(500, check_callback)
+
+            self.root.after(500, check_callback)
+        except Exception as exc:
+            messagebox.showerror("Browser login failed", f"{exc}")
+
+    def _complete_browser_login(self) -> None:
+        try:
+            health = self.api.health()
+            self.logged_in = True
+            self.status_label.configure(
+                text=f"API status: connected ({health.get('status','ok')})"
+            )
+            self.api_details.configure(
+                text=f"Connected to {self.api.base_url}\nService version available."
+            )
+            self.login_container.pack_forget()
+            self.main_container.pack(fill="both", expand=True, padx=0, pady=12)
+            self.login_status.configure(
+                text="Logged in via browser login."
+            )
+        except Exception as exc:
+            messagebox.showerror("Connection error", f"Could not connect to API:\n{exc}")
 
     def _ask_file_and_call(self, action: str) -> None:
         file_path = filedialog.askopenfilename(title=action, filetypes=[("All files", "*")])
