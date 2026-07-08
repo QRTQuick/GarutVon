@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "garutvon/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "requirementsFile": "requirements-prod.txt" }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "garutvon/wsgi.py" }
+  ]
+}
