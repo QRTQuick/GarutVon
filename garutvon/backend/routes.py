@@ -1,5 +1,6 @@
 from functools import wraps
 import re
+from urllib.parse import urlparse
 
 from flask import (
     Blueprint,
@@ -76,6 +77,18 @@ def password_issues(password: str, email: str = "", name: str = "") -> list[str]
     return issues
 
 
+def _is_safe_redirect_url(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        return (
+            parsed.scheme in {"http", "https"}
+            and parsed.hostname in {"127.0.0.1", "localhost"}
+            and parsed.path.startswith("/callback")
+        )
+    except Exception:
+        return False
+
+
 @site.context_processor
 def globals_for_templates():
     return {
@@ -126,10 +139,18 @@ def forgot_password_post():
 def login_post():
     email = request.form.get("email", "").strip().lower()
     password = request.form.get("password", "")
+    next_url = request.form.get("next", "")
     try:
         user = db_session.query(User).filter_by(email=email).first()
         if user and user.check_password(password):
             login_user(user, remember=True)
+            if next_url and _is_safe_redirect_url(next_url):
+                api_key = db_session.query(ApiKey).filter_by(user_id=user.id, is_active=True).first()
+                if not api_key:
+                    api_key = ApiKey(user_id=user.id, label="Browser login key")
+                    db_session.add(api_key)
+                    db_session.commit()
+                return redirect(f"{next_url}?api_key={api_key.key}&status=success")
             return redirect(url_for("site.dashboard"))
     except SQLAlchemyError:
         db_session.rollback()
@@ -137,6 +158,8 @@ def login_post():
         flash("Login is temporarily unavailable. Please try again.", "error")
         return redirect(url_for("site.login"))
     flash("Invalid email or password.", "error")
+    if next_url:
+        return redirect(url_for("site.login", next=next_url))
     return redirect(url_for("site.login"))
 
 

@@ -412,6 +412,19 @@ class DesktopApp:
             try:
                 self.api.login(email, password)
             except Exception as exc:
+                # Provide richer diagnostics for HTTP errors
+                try:
+                    import httpx
+
+                    if isinstance(exc, httpx.HTTPStatusError):
+                        resp = exc.response
+                        messagebox.showerror(
+                            "Login failed",
+                            f"HTTP {resp.status_code}: {resp.text}",
+                        )
+                        return
+                except Exception:
+                    pass
                 messagebox.showerror("Login failed", f"{exc}")
                 return
 

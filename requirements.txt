@@ -1,5 +1,4 @@
 keyring
-resend
 fastapi
 uvicorn[standard]
 flask
@@ -16,6 +15,7 @@ asyncpg
 email-validator
 bcrypt
 passlib[bcrypt]
+resend
 python-jose[cryptography]
 python-docx
 pypandoc
@@ -52,7 +52,6 @@ CairoSVG
 rembg
 onnxruntime
 brotli
-python-zopfli
 piexif
 python-magic
 mutagen
