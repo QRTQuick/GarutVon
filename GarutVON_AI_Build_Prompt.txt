@@ -1,7 +1,0 @@
-sitemap.xml and robots.txt pls add them to the code base configure them well Uncaught ReferenceError: THREE is not defined
-    at logo-3d.js:8:17
-    at logo-3d.js:69:3 add forgotten password option   remove this from the navication bar add this image as the logo of the site replae the main logo ith emoji pls  use icons and text at the footer GarutVON
-Universal File Productivity Platform Built by Quick Red Tech
-
-garutvon@gmail.com · X
-
