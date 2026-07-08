@@ -2,11 +2,22 @@ from __future__ import annotations
 import os
 
 
+def _normalize_database_url(url: str) -> str:
+    cleaned = url.strip().strip("'\"")
+    if cleaned.startswith("postgres://"):
+        cleaned = cleaned.replace("postgres://", "postgresql://", 1)
+    if cleaned.startswith("postgresql://") and "+psycopg" not in cleaned:
+        cleaned = cleaned.replace("postgresql://", "postgresql+psycopg://", 1)
+    return cleaned
+
+
 class Settings:
     ENV: str = os.getenv("ENV", "development")
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL",
-        "postgresql+asyncpg://localhost/garutvon_dev",
+    DATABASE_URL: str = _normalize_database_url(
+        os.getenv(
+            "DATABASE_URL",
+            "postgresql+psycopg://localhost/garutvon_dev",
+        )
     )
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-to-a-secure-random-value")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))

@@ -10,7 +10,6 @@ flask-cors
 flask-limiter
 sqlalchemy
 alembic
-asyncpg
 email-validator
 bcrypt
 passlib[bcrypt]

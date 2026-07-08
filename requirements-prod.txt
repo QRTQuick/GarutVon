@@ -3,7 +3,6 @@ uvicorn[standard]
 pydantic
 python-dotenv
 sqlalchemy
-asyncpg
 alembic
 email-validator
 passlib[bcrypt]
