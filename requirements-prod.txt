@@ -12,6 +12,12 @@ bcrypt
 httpx
 aiofiles
 python-multipart
+Pillow
+pdfplumber
+pypdf
+reportlab
+python-docx
+python-pptx
 requests
 loguru
 gunicorn
