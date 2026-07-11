@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="page-head"><h1>Admin Dashboard</h1><p>Charts, users, downloads, API requests, revenue, donations, system health, errors, logs, latest version, pending users and storage usage.</p></section>
-<section class="grid four">{% for label, value in stats.items() %}<article class="card metric"><span>{{ label.replace("_"," ").title() }}</span><strong>{{ value }}</strong></article>{% endfor %}</section>
-<section class="band"><h2>Recent API Logs</h2>{% for log in logs %}<p><code>{{ log.endpoint }}</code> {{ log.status }} {{ log.created_at }}</p>{% else %}<p>No API logs yet.</p>{% endfor %}</section>
-<section class="band"><h2>Pending Support</h2>{% for ticket in tickets %}<p>{{ ticket.user_email }} - {{ ticket.subject }} - {{ ticket.status }}</p>{% else %}<p>No support tickets yet.</p>{% endfor %}</section>
-{% endblock %}

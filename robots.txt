@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# Sitemap points to the deployed site domain
-Sitemap: https://garutvon.vercel.app/sitemap.xml

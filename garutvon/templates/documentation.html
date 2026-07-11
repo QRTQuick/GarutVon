@@ -1,5 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="page-head"><h1>Documentation</h1><p>Use the API with multipart files for file endpoints and JSON payloads for text intelligence endpoints.</p></section>
-<section class="band"><h2>Example</h2><pre><code>curl -X POST /api/metadata -F "file=@document.pdf"</code></pre><pre><code>curl -X POST /api/summarize -H "Content-Type: application/json" -d "{\"text\":\"GarutVON helps files move faster.\"}"</code></pre></section>
-{% endblock %}

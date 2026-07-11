@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="page-head"><h1>User Dashboard</h1><p>Profile, downloads, API keys, usage, billing, support tickets, settings, security and devices.</p><a class="button ghost" href="{{ donation_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-heart"></i> Support GarutVON</a></section>
-<section class="grid three"><article class="card"><h2>Profile</h2><p>{{ current_user.name }}<br>{{ current_user.email }}</p></article><article class="card"><h2>Downloads</h2><p><a href="/download/track">Download current desktop build</a></p></article><article class="card"><h2>Security</h2><p>Secure cookies, password hashing and CSRF protection are active.</p></article></section>
-<section class="band"><h2>API Keys</h2><form method="post" action="/dashboard/api-keys" class="inline-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="label" placeholder="Key label"><button class="button secondary" type="submit"><i class="fa-solid fa-plus"></i> New Key</button></form>{% for key in keys %}<p><strong>{{ key.label }}</strong> <code>{{ key.key }}</code></p>{% endfor %}</section>
-<section class="band"><h2>Support Tickets</h2>{% for ticket in tickets %}<p>{{ ticket.subject }} - {{ ticket.status }}</p>{% else %}<p>No tickets yet.</p>{% endfor %}</section>
-{% endblock %}
