@@ -5,8 +5,5 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "backend/main.py" }
-  ],
-  "env": {
-    "PYTHONUNBUFFERED": "1"
-  }
+  ]
 }
