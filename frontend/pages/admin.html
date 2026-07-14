@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarutVON System Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body id="admin-section">
+
+    <!-- Premium Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Verifying admin credentials</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2 System Control</span></a>
+            <div class="nav-actions">
+                <button class="btn btn-primary btn-sm" onclick="fetch('/api/auth/logout', {method: 'POST'}).then(() => location.href='/')">Exit Console</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-wrapper" style="grid-template-columns: 1fr;">
+        <!-- Full Screen Main Workspace -->
+        <main class="dashboard-content" style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">System Administrator Console</h1>
+                    <p style="color: var(--text-secondary); margin-top: 4px;">Monitor overall platform telemetry, database statistics, modular feature flags, and donation audit trails.</p>
+                </div>
+            </div>
+
+            <!-- Admin Stats Row -->
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <p class="metric-label">Registered Accounts</p>
+                    <p id="stat_total_users" class="metric-value">0</p>
+                    <p class="metric-sub">Total database profiles</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Completed Conversions</p>
+                    <p id="stat_conversions" class="metric-value">0</p>
+                    <p class="metric-sub">Processed file queries</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Active API Keys</p>
+                    <p id="stat_api_keys" class="metric-value">0</p>
+                    <p class="metric-sub">Operational keys prefix</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Gross Donations</p>
+                    <p id="stat_donations_all" class="metric-value">$0.00</p>
+                    <p class="metric-sub">Total Happer contributions</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">This Month Donations</p>
+                    <p id="stat_donations_monthly" class="metric-value">$0.00</p>
+                    <p class="metric-sub">Progress tracking</p>
+                </div>
+            </div>
+
+            <!-- Sub Nav Tabs -->
+            <div class="tab-container" style="margin-bottom: 32px;">
+                <button class="tab-btn active" onclick="switchAdminTab('admin-tab-users', this)">User Directory</button>
+                <button class="tab-btn" onclick="switchAdminTab('admin-tab-donations', this)">Donation Ledger Audit</button>
+                <button class="tab-btn" onclick="switchAdminTab('admin-tab-flags', this)">Feature Flags</button>
+                <button class="tab-btn" onclick="switchAdminTab('admin-tab-logs', this)">Audit Logs</button>
+            </div>
+
+            <!-- TAB 1: User Directory -->
+            <div id="admin-tab-users" class="tab-content">
+                <div class="card" style="padding: 24px; margin-bottom: 24px; background: var(--bg-secondary)">
+                    <div class="flex justify-between align-center" style="gap: 16px;">
+                        <input id="admin-user-search-input" class="form-control" type="text" placeholder="Search user directory by email address..." style="max-width: 400px; background-color: var(--bg-primary);">
+                        <button class="btn btn-secondary btn-sm" onclick="loadAdminUsers()">Refresh List</button>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Date Joined</th>
+                                <th>Email Status</th>
+                                <th>Account Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table-body">
+                            <tr>
+                                <td colspan="6" class="text-center" style="color: var(--text-muted)">Loading user database...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Donation Audit Ledger -->
+            <div id="admin-tab-donations" class="tab-content hidden">
+                <div class="card" style="padding: 24px; margin-bottom: 24px; background: var(--bg-secondary);">
+                    <div class="flex justify-between align-center">
+                        <div>
+                            <strong style="font-size: 16px; color: var(--text-primary);">Happer Verification Ledger</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary);">Verify donation hashes, transaction references, and user support statements.</p>
+                        </div>
+                        <div class="flex gap-16">
+                            <button id="admin-export-donations-csv" class="btn btn-primary btn-sm">Export Ledger as CSV Report</button>
+                            <button class="btn btn-secondary btn-sm" onclick="loadAdminDonations()">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Donor</th>
+                                <th>Amount</th>
+                                <th>Provider</th>
+                                <th>Transaction Ref</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-donations-table-body">
+                            <tr>
+                                <td colspan="7" class="text-center" style="color: var(--text-muted)">Loading donation ledger...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: Feature Flags -->
+            <div id="admin-tab-flags" class="tab-content hidden">
+                <div class="card" style="padding: 32px; background: var(--bg-secondary)">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px;">Modular Feature Flags</h3>
+                    <div id="admin-flags-container">
+                        <p style="color: var(--text-muted)">Loading feature flag profiles...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: Audit Logs -->
+            <div id="admin-tab-logs" class="tab-content hidden">
+                <div class="data-table-container">
+                    <div class="data-table-header flex justify-between align-center">
+                        <span>System Security Audit Trail</span>
+                        <button class="btn btn-sm btn-secondary" onclick="loadAdminLogs()">Refresh</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Action Event</th>
+                                <th>IP Address</th>
+                                <th>Event Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-logs-table-body">
+                            <tr>
+                                <td colspan="4" class="text-center" style="color: var(--text-muted)">Loading security logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+    <script src="/js/admin.js"></script>
+    <script>
+        function switchAdminTab(tabId, btn) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.getElementById(tabId).classList.remove("hidden");
+            
+            document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+            btn.classList.add("active");
+        }
+    </script>
+</body>
+</html>

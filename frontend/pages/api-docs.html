@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer API Documentation — GarutVON</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+
+    <!-- Premium Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Developer Documentation</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <a href="/features" class="nav-link">Features</a>
+                <a href="/image-converter" class="nav-link">Image Converter</a>
+                <a href="/api-docs" class="nav-link active">API Docs</a>
+                <a href="/pricing" class="nav-link">Pricing</a>
+                <a href="/support" class="nav-link" style="color: var(--success); font-weight: bold;">Support Us</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="/developer-portal" class="btn btn-secondary btn-sm">Developer Portal</a>
+                <a href="/register" class="btn btn-primary btn-sm">Get Free Key</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-wrapper" style="padding-bottom: 40px;">
+        <div class="grid-bg"></div>
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <span class="hero-tag">Cloud Integration Suite</span>
+            <h1 class="hero-title text-gradient">API Documentation</h1>
+            <p class="hero-desc">Integrate GarutVON's high-fidelity conversion cluster directly into your microservices. Authenticate securely with low latency pipelines.</p>
+        </div>
+    </section>
+
+    <section class="section-wrapper" style="padding-top: 0;">
+        <div class="container" style="max-width: 900px;">
+            <div class="card" style="padding: 40px; margin-bottom: 40px;">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">Authentication</h2>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; line-height: 1.6;">
+                    All Cloud API requests require passing your developer key in the <code>X-API-Key</code> custom header or via Bearer structure in <code>Authorization</code> header:
+                </p>
+                <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 13px; overflow-x: auto; color: var(--text-primary);">
+                    X-API-Key: gv_your_secret_key_here<br>
+                    Authorization: Bearer gv_your_secret_key_here
+                </div>
+            </div>
+
+            <!-- Endpoint Description -->
+            <div class="card" style="padding: 40px; margin-bottom: 40px;">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                    <span style="background-color: var(--success); color: var(--bg-primary); padding: 4px 10px; font-size: 12px; font-family: var(--font-mono); border-radius: 4px;">POST</span>
+                    /api/v1/convert/image
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">
+                    Converts any supported input image file directly and transfers the converted output stream in the response body.
+                </p>
+                
+                <h4 style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px;">Request Parameters (Multipart/form-data)</h4>
+                <table class="data-table" style="margin-bottom: 32px;">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>file</code></td>
+                            <td>Binary File</td>
+                            <td>The raw source image to convert (Max size 16MB).</td>
+                        </tr>
+                        <tr>
+                            <td><code>format</code></td>
+                            <td>String</td>
+                            <td>Target output format extension (PNG, JPG, WEBP, BMP, TIFF, ICO).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px;">Code Implementation Examples</h4>
+                
+                <!-- Python Code Sample -->
+                <p style="font-size: 13px; color: var(--text-primary); margin-bottom: 8px;"><strong>Python (requests)</strong></p>
+                <pre style="background-color: var(--bg-primary); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; overflow-x: auto; margin-bottom: 24px;">import requests
+
+url = "http://localhost:8000/api/v1/convert/image"
+headers = {"X-API-Key": "gv_your_api_key"}
+files = {"file": open("photo.png", "rb")}
+data = {"format": "WEBP"}
+
+response = requests.post(url, headers=headers, files=files, data=data)
+if response.status_code == 200:
+    with open("converted.webp", "wb") as f:
+        f.write(response.content)
+    print("Success!")</pre>
+
+                <!-- cURL Code Sample -->
+                <p style="font-size: 13px; color: var(--text-primary); margin-bottom: 8px;"><strong>cURL Command</strong></p>
+                <pre style="background-color: var(--bg-primary); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; overflow-x: auto; margin-bottom: 24px;">curl -X POST "http://localhost:8000/api/v1/convert/image" \
+  -H "X-API-Key: gv_your_api_key" \
+  -F "file=@/path/to/photo.png" \
+  -F "format=WEBP" \
+  -o converted.webp</pre>
+
+                <!-- Node.JS Sample -->
+                <p style="font-size: 13px; color: var(--text-primary); margin-bottom: 8px;"><strong>Node.js (Fetch)</strong></p>
+                <pre style="background-color: var(--bg-primary); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; overflow-x: auto;">const fs = require('fs');
+
+const formData = new FormData();
+formData.append('file', new Blob([fs.readFileSync('photo.png')]), 'photo.png');
+formData.append('format', 'WEBP');
+
+fetch('http://localhost:8000/api/v1/convert/image', {
+  method: 'POST',
+  headers: { 'X-API-Key': 'gv_your_api_key' },
+  body: formData
+})
+.then(res => res.arrayBuffer())
+.then(buffer => fs.writeFileSync('converted.webp', Buffer.from(buffer)));</pre>
+            </div>
+
+            <!-- Future endpoints -->
+            <div class="card" style="padding: 40px; border-color: var(--border-color)">
+                <div class="flex justify-between align-center">
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">PDF Programmatic API</h2>
+                        <p style="color: var(--text-secondary); font-size: 13px;">Merge, extract or convert complex doc grids programmatically.</p>
+                    </div>
+                    <span class="badge-coming">Coming Soon</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="/" class="logo">GarutVON <span>v2</span></a>
+                <p>Premium dark-themed productivity engine enabling developers and businesses to convert files and streamline data structures.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product</h4>
+                <div class="footer-links">
+                    <a href="/features" class="footer-link">Features</a>
+                    <a href="/image-converter" class="footer-link">Image Converter</a>
+                    <a href="/pricing" class="footer-link">Pricing</a>
+                    <a href="/status" class="footer-link">Service Status</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Company</h4>
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <a href="/blog" class="footer-link">Blog</a>
+                    <a href="/careers" class="footer-link">Careers</a>
+                </div>
+            </div>
+            <div class="footer-donation-card">
+                <h4 class="footer-heading" style="color: var(--success);">Fuel Infrastructure</h4>
+                <p>Support our independent SaaS journey. Donations run on Happer and help us pay for Neon databases and Mailjet triggers.</p>
+                <a href="/support" class="btn btn-sm btn-primary" style="width: 100%;">Donate Now</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+</body>
+</html>

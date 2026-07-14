@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarutVON — Universal File Productivity Platform</title>
+    <link rel="icon" type="image/png" href="/assets/garutvon-logo.png">
+    <link rel="shortcut icon" href="/assets/garutvon-logo.png">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/threedee.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Premium Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">GarutVON v2 Loading</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <a href="/features" class="nav-link">Features</a>
+                <a href="/image-converter" class="nav-link">Image Converter</a>
+                <a href="/api-docs" class="nav-link">API Docs</a>
+                <a href="/pricing" class="nav-link">Pricing</a>
+                <a href="/support" class="nav-link" style="color: var(--success); font-weight: bold;">Support Us</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="/login" class="btn btn-secondary btn-sm">Login</a>
+                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-wrapper">
+        <div class="grid-bg"></div>
+        <div class="glow-orb" style="top: 20%; left: 30%"></div>
+        <div class="glow-orb" style="bottom: 10%; right: 25%"></div>
+        <div class="logo-3d-bg">
+            <img src="/assets/garutvon-logo.png" alt="GarutVON Logo" class="logo-3d-image">
+        </div>
+        <div class="threedee-scene">
+            <div class="wireframe-cube cube-1"></div>
+            <div class="wireframe-cube cube-2"></div>
+            <div class="wireframe-cube-small" style="top: 40%; left: 75%"></div>
+        </div>
+        <div class="container hero-content">
+            <span class="hero-tag">Unified Utility SaaS Suite</span>
+            <h1 class="hero-title text-gradient">The Premium Universal File Hub.</h1>
+            <p class="hero-desc">Convert files, extract OCR data, analyze documents, and automate high-performance
+                workflows through intuitive developer dashboards and powerful cloud APIs.</p>
+            <div class="hero-btns">
+                <a href="/image-converter" class="btn btn-primary btn-lg">Convert Now</a>
+                <a href="/api-docs" class="btn btn-secondary btn-lg">Developer Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Cards / Future Services List -->
+    <section class="section-wrapper">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Powerful Utilities</span>
+                <h2 class="section-title">One Platform. Absolute Speed.</h2>
+                <p class="section-desc">GarutVON v1 unleashes professional-grade image processing, with extensive
+                    pipelines currently building for future expansion.</p>
+            </div>
+
+            <div class="feature-grid">
+                <!-- Working Service -->
+                <div class="card hover-depth-card" onclick="window.location.href='/image-converter'">
+                    <div class="feature-icon"><i class="fa-solid fa-camera"></i></div>
+                    <h3 class="feature-title">Image Converter</h3>
+                    <p class="feature-desc">Perform high fidelity conversion across formats like PNG, JPG, WEBP, ICO,
+                        BMP, and TIFF with robust file safety checking.</p>
+                    <span class="badge-coming"
+                        style="background-color: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.2); margin-top: 12px; display: inline-block;">Working
+                        Now</span>
+                </div>
+
+                <!-- Future services placeholders -->
+                <div class="card">
+                    <div class="feature-icon"><i class="fa-solid fa-file-lines"></i></div>
+                    <h3 class="feature-title">PDF Suite</h3>
+                    <p class="feature-desc">Compress, split, lock, unlock, merge, and convert PDF formats with absolute
+                        accuracy.</p>
+                    <span class="badge-coming" style="margin-top: 12px; display: inline-block;">Coming Soon</span>
+                </div>
+
+                <div class="card">
+                    <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3 class="feature-title">OCR Engine</h3>
+                    <p class="feature-desc">AI-powered optical character recognition to lift unstructured text from
+                        scanned reports or receipts.</p>
+                    <span class="badge-coming" style="margin-top: 12px; display: inline-block;">Coming Soon</span>
+                </div>
+
+                <div class="card">
+                    <div class="feature-icon"><i class="fa-solid fa-file-pen"></i></div>
+                    <h3 class="feature-title">Resume Analyzer</h3>
+                    <p class="feature-desc">Leverage advanced LLMs to scan, score, audit and extract credentials from
+                        candidate resumes.</p>
+                    <span class="badge-coming" style="margin-top: 12px; display: inline-block;">Coming Soon</span>
+                </div>
+
+                <div class="card">
+                    <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="feature-title">Developer APIs</h3>
+                    <p class="feature-desc">Integrate GarutVON's high-speed file utility conversions directly into your
+                        codebase with simple API structures.</p>
+                    <span class="badge-coming"
+                        style="background-color: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.2); margin-top: 12px; display: inline-block;">Working
+                        Now</span>
+                </div>
+
+                <div class="card">
+                    <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="feature-title">AI translation</h3>
+                    <p class="feature-desc">Instantly translate document libraries while preserving tables, structures
+                        and font settings.</p>
+                    <span class="badge-coming" style="margin-top: 12px; display: inline-block;">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support / Donation Callout Section -->
+    <section class="section-wrapper"
+        style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color)">
+        <div class="container text-center">
+            <div class="section-header" style="margin-bottom: 32px;">
+                <span class="section-tag" style="color: var(--success);">Community & Sustainability</span>
+                <h2 class="section-title">Support GarutVON</h2>
+                <p class="section-desc">GarutVON is an independent SaaS utility designed to stay lightning-fast, and
+                    free of trackers or bloatware. Support our hosting infrastructure so we can continue delivering
+                    premium tools.</p>
+            </div>
+            <div style="max-width: 500px; margin: 0 auto 32px auto;">
+                <a href="/support" class="btn btn-primary btn-lg" style="width: 100%;">Donate to GarutVON via Happer</a>
+            </div>
+            <p style="font-size: 13px; color: var(--text-secondary)">Donations are optional and used purely to support
+                high-performance server clusters and storage buckets.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="/" class="logo">GarutVON <span>v2</span></a>
+                <p>Premium dark-themed productivity engine enabling developers and businesses to convert files and
+                    streamline data structures.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product</h4>
+                <div class="footer-links">
+                    <a href="/features" class="footer-link">Features</a>
+                    <a href="/image-converter" class="footer-link">Image Converter</a>
+                    <a href="/pricing" class="footer-link">Pricing</a>
+                    <a href="/status" class="footer-link">Service Status</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Company</h4>
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <a href="/blog" class="footer-link">Blog <span class="badge-coming">Soon</span></a>
+                    <a href="/careers" class="footer-link">Careers <span class="badge-coming">Soon</span></a>
+                </div>
+            </div>
+            <div class="footer-donation-card">
+                <h4 class="footer-heading" style="color: var(--success);">Fuel Infrastructure</h4>
+                <p>Support our independent SaaS journey. Donations run on Happer and help us pay for Neon databases and
+                    Mailjet triggers.</p>
+                <a href="/support" class="btn btn-sm btn-primary" style="width: 100%;">Donate Now</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+    <script src="/js/threedee.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features — GarutVON</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading platform modules</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <a href="/features" class="nav-link active">Features</a>
+                <a href="/image-converter" class="nav-link">Image Converter</a>
+                <a href="/api-docs" class="nav-link">API Docs</a>
+                <a href="/pricing" class="nav-link">Pricing</a>
+                <a href="/support" class="nav-link" style="color: var(--success); font-weight: bold;">Support Us</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="/login" class="btn btn-secondary btn-sm">Login</a>
+                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-wrapper" style="padding-bottom: 40px;">
+        <div class="grid-bg"></div>
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <span class="hero-tag">Core Capabilities</span>
+            <h1 class="hero-title text-gradient">Engineered for absolute performance</h1>
+            <p class="hero-desc">Discover our range of professional productivity tools. From instant conversions to
+                AI-powered extractions, GarutVON handles it all.</p>
+        </div>
+    </section>
+
+    <section class="section-wrapper" style="padding-top: 0;">
+        <div class="container">
+            <div class="feature-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+                <!-- Working Image Conversion Module -->
+                <div class="card hover-depth-card" style="padding: 40px;"
+                    onclick="window.location.href='/image-converter'">
+                    <div style="font-size: 36px; margin-bottom: 20px;"><i class="fa-solid fa-camera"></i></div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Premium Image Conversion</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                        Convert PNG, JPG, JPEG, WEBP, BMP, GIF, TIFF, and ICO formats instantly. Our server cluster
+                        verifies headers securely, strips metadata where requested, preserves transparency channels, and
+                        compiles direct download streams.
+                    </p>
+                    <span class="badge-coming"
+                        style="background-color: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.2); font-size: 11px;">Active
+                        Module</span>
+                </div>
+
+                <!-- Programmatic Keys Active Module -->
+                <div class="card hover-depth-card" style="padding: 40px;" onclick="window.location.href='/api-docs'">
+                    <div style="font-size: 36px; margin-bottom: 20px;"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Developer API Integrations</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                        Build automation workflows. Issue cryptographically secure API credentials inside the portal and
+                        convert image objects dynamically through low latency backend gateways using Python or Node.js.
+                    </p>
+                    <span class="badge-coming"
+                        style="background-color: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.2); font-size: 11px;">Active
+                        Module</span>
+                </div>
+
+                <!-- Future Modules marked as Coming Soon -->
+                <div class="card" style="padding: 40px; border-color: var(--border-color);">
+                    <div class="flex justify-between align-center" style="margin-bottom: 16px;">
+                        <div style="font-size: 36px;"><i class="fa-solid fa-file-lines"></i></div>
+                        <span class="badge-coming">Coming Soon</span>
+                    </div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">PDF & Document Suite</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                        Combine pages, lock files, compress tables, extract forms, and transform formats like Word,
+                        Excel, and PowerPoint into secure PDFs seamlessly on our conversion servers.
+                    </p>
+                </div>
+
+                <div class="card" style="padding: 40px; border-color: var(--border-color);">
+                    <div class="flex justify-between align-center" style="margin-bottom: 16px;">
+                        <div style="font-size: 36px;"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <span class="badge-coming">Coming Soon</span>
+                    </div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">OCR Text Extractor</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                        Lifting unstructured content from scanned receipts, PDFs, invoices, and hand-written logs with
+                        advanced deep learning neural networks.
+                    </p>
+                </div>
+
+                <div class="card" style="padding: 40px; border-color: var(--border-color);">
+                    <div class="flex justify-between align-center" style="margin-bottom: 16px;">
+                        <div style="font-size: 36px;">💼</div>
+                        <span class="badge-coming">Coming Soon</span>
+                    </div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Resume Analytics</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                        A streamlined HR parsing utility to scan and evaluate candidate files, check keywords, measure
+                        experiences, and output normalized structured JSON objects.
+                    </p>
+                </div>
+
+                <div class="card" style="padding: 40px; border-color: var(--border-color);">
+                    <div class="flex justify-between align-center" style="margin-bottom: 16px;">
+                        <div style="font-size: 36px;">✂️</div>
+                        <span class="badge-coming">Coming Soon</span>
+                    </div>
+                    <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Image Background Removal</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                        AI cutout algorithms that segment objects and export perfectly transparent PNG outputs under 200
+                        milliseconds.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="/" class="logo">GarutVON <span>v2</span></a>
+                <p>Premium dark-themed productivity engine enabling developers and businesses to convert files and
+                    streamline data structures.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product</h4>
+                <div class="footer-links">
+                    <a href="/features" class="footer-link">Features</a>
+                    <a href="/image-converter" class="footer-link">Image Converter</a>
+                    <a href="/pricing" class="footer-link">Pricing</a>
+                    <a href="/status" class="footer-link">Service Status</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Company</h4>
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <a href="/blog" class="footer-link">Blog</a>
+                    <a href="/careers" class="footer-link">Careers</a>
+                </div>
+            </div>
+            <div class="footer-donation-card">
+                <h4 class="footer-heading" style="color: var(--success);">Fuel Infrastructure</h4>
+                <p>Support our independent SaaS journey. Donations run on Happer and help us pay for Neon databases and
+                    Mailjet triggers.</p>
+                <a href="/support" class="btn btn-sm btn-primary" style="width: 100%;">Donate Now</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+</body>
+
+</html>

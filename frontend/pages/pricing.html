@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans — GarutVON</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading premium pricing matrix</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <a href="/features" class="nav-link">Features</a>
+                <a href="/image-converter" class="nav-link">Image Converter</a>
+                <a href="/api-docs" class="nav-link">API Docs</a>
+                <a href="/pricing" class="nav-link active">Pricing</a>
+                <a href="/support" class="nav-link" style="color: var(--success); font-weight: bold;">Support Us</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="/login" class="btn btn-secondary btn-sm">Login</a>
+                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-wrapper" style="padding-bottom: 40px;">
+        <div class="grid-bg"></div>
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <span class="hero-tag">Flexible allocations</span>
+            <h1 class="hero-title text-gradient">Predictable, premium tiers</h1>
+            <p class="hero-desc">Whether you are an individual converting images or a developer scaling programmatic file pipelines, we have got you covered.</p>
+        </div>
+    </section>
+
+    <section class="section-wrapper" style="padding-top: 0;">
+        <div class="container">
+            <div class="pricing-grid">
+                
+                <!-- Free Plan -->
+                <div class="card pricing-card">
+                    <div class="pricing-header">
+                        <div class="tier-name">Free Tier</div>
+                        <div class="tier-price">$0<span>/forever</span></div>
+                        <div class="tier-desc">Sleek Web tools for individual file productivity tasks.</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span>✔</span> 10 image conversions per week
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> All premium output types (WEBP, PNG, ICO, JPG)
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> High speed server queues
+                        </div>
+                        <div class="pricing-feature" style="color: var(--text-muted);">
+                            <span>✘</span> Developer API keys access
+                        </div>
+                    </div>
+                    <a href="/register" class="btn btn-secondary" style="width: 100%;">Create Account</a>
+                </div>
+
+                <!-- Developer Pro -->
+                <div class="card pricing-card" style="border-color: var(--text-primary); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05)">
+                    <div class="pricing-header">
+                        <div class="tier-name" style="color: var(--text-primary);">Developer Pro</div>
+                        <div class="tier-price">$29<span>/month</span></div>
+                        <div class="tier-desc">Unlimited automated processing and low-latency cloud triggers.</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span>✔</span> 10,000 programmatic queries per week
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Full access to API credentials portal
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Parallel image compression engine
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Dedicated support channel access
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="alert('Our Stripe billing portal is currently under security review for production compliance. For now, enjoy our high limits on our Free Tier!')">Upgrade Now</button>
+                </div>
+
+                <!-- Community Supporter -->
+                <div class="card pricing-card">
+                    <div class="pricing-header">
+                        <div class="tier-name" style="color: var(--success)">Sustaining Donor</div>
+                        <div class="tier-price">Custom<span>/one-time</span></div>
+                        <div class="tier-desc">Fuel independent, tracker-free SaaS utilities.</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span>✔</span> Fund Neon PostgreSQL clustering costs
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Pay for active Mailjet verify alerts
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Keep core file utilities accessible to all
+                        </div>
+                        <div class="pricing-feature">
+                            <span>✔</span> Dedicated donor page recognition
+                        </div>
+                    </div>
+                    <a href="/support" class="btn btn-secondary" style="width: 100%; border-color: var(--success); color: var(--success);">Donate via Happer</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="/" class="logo">GarutVON <span>v2</span></a>
+                <p>Premium dark-themed productivity engine enabling developers and businesses to convert files and streamline data structures.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product</h4>
+                <div class="footer-links">
+                    <a href="/features" class="footer-link">Features</a>
+                    <a href="/image-converter" class="footer-link">Image Converter</a>
+                    <a href="/pricing" class="footer-link">Pricing</a>
+                    <a href="/status" class="footer-link">Service Status</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Company</h4>
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <a href="/blog" class="footer-link">Blog</a>
+                    <a href="/careers" class="footer-link">Careers</a>
+                </div>
+            </div>
+            <div class="footer-donation-card">
+                <h4 class="footer-heading" style="color: var(--success);">Fuel Infrastructure</h4>
+                <p>Support our independent SaaS journey. Donations run on Happer and help us pay for Neon databases and Mailjet triggers.</p>
+                <a href="/support" class="btn btn-sm btn-primary" style="width: 100%;">Donate Now</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+</body>
+</html>

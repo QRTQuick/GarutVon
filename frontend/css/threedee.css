@@ -1,0 +1,174 @@
+/* GarutVON v2 - 3D Visuals & Premium Particles styling */
+
+/* 3D Logo Background on Landing Page */
+.logo-3d-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.08;
+    filter: drop-shadow(0 0 60px rgba(34, 211, 238, 0.3));
+    animation: float-rotate 20s infinite linear;
+}
+
+.logo-3d-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.1) contrast(1.2);
+}
+
+@keyframes float-rotate {
+    0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+    }
+
+    25% {
+        transform: translate(-50%, -48%) rotateZ(90deg);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotateZ(180deg);
+    }
+
+    75% {
+        transform: translate(-50%, -52%) rotateZ(270deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+}
+
+/* Floating Geometric Objects Container */
+.threedee-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Background Particle Canvas styling */
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: all;
+    /* Allows mouse interactions with particles */
+}
+
+/* 3D Glass Wireframes */
+.wireframe-cube {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(2px);
+    border-radius: var(--radius-sm);
+    animation: float 12s ease-in-out infinite, rotateGrid 24s linear infinite;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.wireframe-cube-small {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    background: transparent;
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+/* Placements */
+.cube-1 {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.cube-2 {
+    top: 60%;
+    right: 12%;
+    animation-delay: -3s;
+}
+
+.cube-3 {
+    bottom: 10%;
+    left: 15%;
+    animation-delay: -6s;
+}
+
+/* Interactive Hover Depth container */
+.hover-depth-card {
+    transition: transform 0.1s ease-out, box-shadow 0.2s ease-out;
+    transform-style: preserve-3d;
+}
+
+.hover-depth-card * {
+    transform: translateZ(20px);
+    /* Lifts content off card background */
+}
+
+/* Premium Gradient Mesh backgrounds */
+.gradient-mesh {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+    z-index: 0;
+    pointer-events: none;
+    animation: rotateGrid 80s linear infinite;
+}
+
+/* Landing page 3D logo background */
+.landing-logo-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url('/assets/garutvon-logo.png');
+    background-repeat: no-repeat;
+    background-position: center 30%;
+    background-size: 60vmin;
+    opacity: 0.08;
+    transform: translateZ(-200px) scale(1.05) rotateX(12deg);
+    filter: blur(2px) saturate(120%);
+    will-change: transform, opacity;
+    animation: landingLogoFloat 18s ease-in-out infinite;
+}
+
+@keyframes landingLogoFloat {
+    0% {
+        transform: translateZ(-200px) scale(1.02) rotateX(12deg) translateY(0px);
+        opacity: 0.06
+    }
+
+    50% {
+        transform: translateZ(-220px) scale(1.06) rotateX(10deg) translateY(-8px);
+        opacity: 0.10
+    }
+
+    100% {
+        transform: translateZ(-200px) scale(1.02) rotateX(12deg) translateY(0px);
+        opacity: 0.06
+    }
+}

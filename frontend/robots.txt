@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://garutvon.vercel.app/sitemap.xml
+Host: garutvon.vercel.app

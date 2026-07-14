@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — GarutVON</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/threedee.css">
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Starting Secure Portal</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <div class="nav-actions">
+                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <section class="hero-wrapper" style="display: flex; align-items: center; justify-content: center; min-height: 90vh;">
+        <div class="grid-bg"></div>
+        <div class="threedee-scene">
+            <div class="wireframe-cube cube-1"></div>
+            <div class="wireframe-cube cube-2"></div>
+        </div>
+        <div class="container" style="max-width: 440px;">
+            <div class="card hover-depth-card" style="padding: 40px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <h2 class="text-gradient" style="font-size: 28px; font-weight: 800;">Log In</h2>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-top: 6px;">Access your universal file workspace.</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input class="form-control" type="email" id="email" placeholder="you@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="flex justify-between align-center" style="margin-bottom: 8px;">
+                            <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+                            <a href="/forgot-password" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary); text-transform: uppercase;">Forgot Password?</a>
+                        </div>
+                        <input class="form-control" type="password" id="password" required placeholder="••••••••">
+                    </div>
+                    <div class="form-group flex align-center" style="gap: 8px;">
+                        <input type="checkbox" id="remember_me" style="accent-color: #fff; width: 14px; height: 14px;">
+                        <label for="remember_me" style="font-size: 13px; color: var(--text-secondary); cursor: pointer;">Remember me for 30 days</label>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 12px;">Sign In</button>
+                </form>
+
+                <p style="text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 24px;">
+                    Don't have an account? <a href="/register" style="color: var(--text-primary); font-weight: 600;">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+    <script src="/js/threedee.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

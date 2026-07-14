@@ -1,0 +1,98 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-garutvon-backend.up.railway.app/api/$1"
+    },
+    {
+      "source": "/features",
+      "destination": "/pages/features.html"
+    },
+    {
+      "source": "/image-converter",
+      "destination": "/pages/image-converter.html"
+    },
+    {
+      "source": "/api-docs",
+      "destination": "/pages/api-docs.html"
+    },
+    {
+      "source": "/developer-portal",
+      "destination": "/pages/developer-portal.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/pages/pricing.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/pages/dashboard.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/pages/about.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/pages/contact.html"
+    },
+    {
+      "source": "/support",
+      "destination": "/pages/support.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/pages/faq.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/pages/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/pages/terms.html"
+    },
+    {
+      "source": "/cookies",
+      "destination": "/pages/cookies.html"
+    },
+    {
+      "source": "/status",
+      "destination": "/pages/status.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/pages/login.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/pages/register.html"
+    },
+    {
+      "source": "/forgot-password",
+      "destination": "/pages/forgot-password.html"
+    },
+    {
+      "source": "/reset-password",
+      "destination": "/pages/reset-password.html"
+    },
+    {
+      "source": "/verify-email",
+      "destination": "/pages/verify-email.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/pages/admin.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/pages/coming-soon.html"
+    },
+    {
+      "source": "/careers",
+      "destination": "/pages/coming-soon.html"
+    }
+  ]
+}

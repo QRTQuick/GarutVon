@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support GarutVON — Fuel independent SaaS productivity</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/threedee.css">
+</head>
+
+<body>
+
+    <!-- Premium Loading Screen -->
+    <div class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Support Hub</div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-menu">
+                <a href="/features" class="nav-link">Features</a>
+                <a href="/image-converter" class="nav-link">Image Converter</a>
+                <a href="/api-docs" class="nav-link">API Docs</a>
+                <a href="/pricing" class="nav-link">Pricing</a>
+                <a href="/support" class="nav-link active" style="color: var(--success); font-weight: bold;">Support
+                    Us</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="/login" class="btn btn-secondary btn-sm">Login</a>
+                <a href="/register" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Support Content Wrapper -->
+    <section class="hero-wrapper" style="padding-bottom: 40px;">
+        <div class="grid-bg"></div>
+        <div class="container text-center" style="max-width: 800px;">
+            <span class="hero-tag"
+                style="border-color: rgba(16, 185, 129, 0.3); color: var(--success); background: rgba(16, 185, 129, 0.02)">Happer
+                Donation Hub</span>
+            <h1 class="hero-title text-gradient">Support Our Mission</h1>
+            <p class="hero-desc">GarutVON is built as an independent SaaS alternative to heavy, ad-ridden conversion
+                platforms. Your contributions directly fuel our processing clusters, Neon databases, and API scaling.
+            </p>
+        </div>
+    </section>
+
+    <section class="section-wrapper" style="padding-top: 0;">
+        <div class="container" style="max-width: 1000px;">
+            <div class="pricing-grid" style="grid-template-columns: 1.5fr 1fr; gap: 40px;">
+
+                <!-- Donation Goals & Embed Widget Column -->
+                <div>
+                    <div class="card" style="padding: 32px; margin-bottom: 32px;">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Fuel Infrastructure Progress
+                        </h3>
+                        <div
+                            style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 4px; height: 28px; width: 100%; margin-bottom: 12px; position: relative;">
+                            <div id="donation-progress-bar"
+                                style="background-color: var(--success); height: 100%; width: 12%; border-radius: 4px; transition: width 1.5s ease-in-out;">
+                            </div>
+                        </div>
+                        <p id="donation-progress-label"
+                            style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.5px;">
+                            Loading goal metrics...</p>
+                    </div>
+
+                    <!-- Setup Optional donation custom fields before embed -->
+                    <div class="card" style="padding: 32px; margin-bottom: 32px;">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">1. Set Up Your Optional
+                            Donation</h3>
+                        <form id="donation-initiation-form">
+                            <div class="form-group">
+                                <label class="form-label" for="donor_name">Your Name (Optional)</label>
+                                <input class="form-control" type="text" id="donor_name" placeholder="E.g. Chisom Life"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="donation_amount">Donation Amount ($ USD)</label>
+                                <input class="form-control" type="number" id="donation_amount" min="1" step="any"
+                                    placeholder="E.g. 10.00" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="donor_message">Optional Message</label>
+                                <textarea class="form-control" id="donor_message" rows="3"
+                                    placeholder="Leave a word of encouragement for the developers..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" type="submit" style="width: 100%;">Proceed to Secure
+                                Transfer</button>
+                        </form>
+                    </div>
+
+                    <!-- Happer Frame Section -->
+                    <div id="happer-embed-container" class="card hidden"
+                        style="padding: 16px; border-color: rgba(94, 181, 255, 0.3)">
+                        <h3
+                            style="font-size: 16px; font-weight: 700; margin-bottom: 16px; text-align: center; color: #5EB5FF;">
+                            2. Complete Your Payment via Happer</h3>
+                        <iframe
+                            src="https://myhappr.com/embed/chisomlifeeugsh?text=Make+GarutVon+Smile&color=%235EFF9D&textColor=%23000000&title=Support+GarutVon+with+a+smile+"
+                            width="100%" height="600" frameborder="0" scrolling="no"
+                            style="border-radius: 12px; background-color: var(--bg-primary);"></iframe>
+                        <div style="margin-top: 16px; text-align: center;">
+                            <p style="font-size: 11px; color: var(--text-secondary)">Once completed, our webhook
+                                verifies transaction hashes securely and logs your message below.</p>
+                            <button class="btn btn-secondary btn-sm" style="margin-top: 12px;"
+                                onclick="location.reload();">I have completed the donation</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Side Column -->
+                <div>
+                    <div class="card" style="padding: 24px; margin-bottom: 24px;">
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Where do donations go?</h4>
+                        <ul
+                            style="display: flex; flex-direction: column; gap: 16px; font-size: 14px; color: var(--text-secondary)">
+                            <li><i class="fa-solid fa-bolt"></i> <strong>Cloud hosting:</strong> Maintaining 99.9%
+                                uptime on robust worker grids.</li>
+                            <li><i class="fa-solid fa-database"></i> <strong>Databases:</strong> Powering persistent
+                                storage layers with Neon PostgreSQL.</li>
+                            <li><i class="fa-solid fa-envelope"></i> <strong>Email triggers:</strong> Sending crucial
+                                security verification codes via Mailjet.</li>
+                            <li><i class="fa-solid fa-wrench"></i> <strong>New Services:</strong> Helping fund
+                                development of OCR, PDF, AI translation, and more.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="padding: 24px; margin-bottom: 24px;">
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Recent Smiles Given</h4>
+                        <div id="recent-donors-container">
+                            <p style="font-size: 12px; color: var(--text-muted)">Loading recent supporters...</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding: 24px;">
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">FAQ</h4>
+                        <div
+                            style="font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 12px;">
+                            <p><strong>Are donations required?</strong><br>No. Free users get 10 high-fidelity
+                                conversions per week. Donations are strictly optional.</p>
+                            <p><strong>Are there premium unlocks?</strong><br>We do not lock basic utilities behind
+                                paywalls. Contributions help support the general ecosystem for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="/" class="logo">GarutVON <span>v2</span></a>
+                <p>Premium dark-themed productivity engine enabling developers and businesses to convert files and
+                    streamline data structures.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product</h4>
+                <div class="footer-links">
+                    <a href="/features" class="footer-link">Features</a>
+                    <a href="/image-converter" class="footer-link">Image Converter</a>
+                    <a href="/pricing" class="footer-link">Pricing</a>
+                    <a href="/status" class="footer-link">Service Status</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Company</h4>
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <a href="/blog" class="footer-link">Blog</a>
+                    <a href="/careers" class="footer-link">Careers</a>
+                </div>
+            </div>
+            <div class="footer-donation-card">
+                <h4 class="footer-heading" style="color: var(--success);">Fuel Infrastructure</h4>
+                <p>Support our independent SaaS journey. Donations run on Happer and help us pay for Neon databases and
+                    Mailjet triggers.</p>
+                <a href="/support" class="btn btn-sm btn-primary" style="width: 100%;">Donate Now</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+            <div style="display: flex; gap: 16px;">
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform System Status — GarutVON</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">GarutVON <span>v2</span></a>
+            <div class="nav-actions">
+                <a href="/" class="btn btn-secondary btn-sm">Home</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-wrapper" style="padding-bottom: 40px;">
+        <div class="grid-bg"></div>
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <span class="hero-tag" style="color: var(--success); border-color: rgba(16, 185, 129, 0.2)">All Systems Operational</span>
+            <h1 class="hero-title text-gradient" style="font-size: 40px; margin-top: 16px;">System Telemetry Status</h1>
+            <p class="hero-desc">Real-time status tracking of GarutVON's core modules, Neon PostgreSQL clusters, and Mailjet servers.</p>
+        </div>
+    </section>
+
+    <section class="section-wrapper" style="padding-top: 0;">
+        <div class="container" style="max-width: 800px;">
+            <div class="card" style="padding: 40px;">
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <div class="flex justify-between align-center" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary);">Web Engine (Flask)</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Uptime: 99.98% | Latency: 12 ms</p>
+                        </div>
+                        <span class="status-badge completed">Operational</span>
+                    </div>
+
+                    <div class="flex justify-between align-center" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary);">Developer Cloud APIs (FastAPI)</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Uptime: 100.00% | Latency: 8 ms</p>
+                        </div>
+                        <span class="status-badge completed">Operational</span>
+                    </div>
+
+                    <div class="flex justify-between align-center" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary);">Pillow Conversion Worker Cluster</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Average conversion processing time: 140 ms</p>
+                        </div>
+                        <span class="status-badge completed">Operational</span>
+                    </div>
+
+                    <div class="flex justify-between align-center" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary);">Database Instance (Neon PostgreSQL)</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Uptime: 99.99% | Cluster Health: Optimal</p>
+                        </div>
+                        <span class="status-badge completed">Operational</span>
+                    </div>
+
+                    <div class="flex justify-between align-center">
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary);">Email dispatcher gateway (Mailjet)</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Queue state: Clean | Delivery speed: 1.2s avg</p>
+                        </div>
+                        <span class="status-badge completed">Operational</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 GarutVON Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/components.js"></script>
+</body>
+</html>
